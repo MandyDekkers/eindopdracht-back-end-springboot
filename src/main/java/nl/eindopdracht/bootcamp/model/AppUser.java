@@ -1,5 +1,6 @@
 package nl.eindopdracht.bootcamp.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,29 +8,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
+@Table(name = "appUser")
 public class AppUser {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long AppUserid;
 
+    @Column(name = "firstname")
     private String firstName;
+
+    @Column(name = "lastname")
     private String lastName;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "phonenumber")
     private String phoneNumber;
+
+    @Column(name = "dateofbirth")
     private String dateOfBirth;
 
-    @ManyToOne
-    private Address place;
+//    @ManyToOne
+//    private Address place;
 
-    public Long getId() {
-        return id;
+
+    public Long getAppUserid() {
+        return AppUserid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAppUserid(Long appUserid) {
+        AppUserid = appUserid;
     }
 
     public String getFirstName() {
@@ -72,11 +86,11 @@ public class AppUser {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Address getPlace() {
-        return place;
-    }
-
-    public void setPlace(Address place) {
-        this.place = place;
-    }
+//    public Address getPlace() {
+//        return place;
+//    }
+//
+//    public void setPlace(Address place) {
+//        this.place = place;
+//    }
 }

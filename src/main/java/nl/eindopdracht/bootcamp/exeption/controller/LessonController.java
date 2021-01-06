@@ -44,13 +44,13 @@ public class LessonController {
     @PutMapping(value = "/lesson/{id}")
     public ResponseEntity<Object> updateLesson(@PathVariable("id") int id, @RequestBody Lesson lesson) {
         lessonService.updateLesson(id, lesson);
-        return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
+        return new ResponseEntity<>("Les is geupdated!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/lesson/{id}")
     public ResponseEntity<Object> deleteLesson(@PathVariable("id") long id) {
         lessonService.deleteLesson(id);
-        return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);
+        return new ResponseEntity<>("Les is verwijderd", HttpStatus.OK);
     }
 
 }
