@@ -8,7 +8,10 @@ public interface AppUserService {
 
     List<AppUser> getAllAppUsers();
     AppUser getAppUsersById(long id);
-    long saveAppUser(AppUser appUser);
+//    long saveAppUser(AppUser appUser);
+    long addAppUser(AppUser appUser);
     void updateAppUser(long id, AppUser appUser);
     void deleteAppUser(long id);
+
+
 }

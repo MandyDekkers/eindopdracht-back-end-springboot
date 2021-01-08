@@ -20,8 +20,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class LessonController {
 
-    @Autowired
     private LessonService lessonService;
+
+    @Autowired
+    public void setLessonService(LessonService lessonService) {
+        this.lessonService = lessonService;
+    }
 
     @GetMapping(value = "/lesson")
     public ResponseEntity<Object> getLessons(){

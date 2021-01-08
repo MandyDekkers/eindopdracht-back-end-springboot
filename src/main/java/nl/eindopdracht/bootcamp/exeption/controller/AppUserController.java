@@ -22,8 +22,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AppUserController {
 
-    @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    public void setAppUserService(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
 
     @GetMapping(value = "/appuser")
     public ResponseEntity<Object> getAllAppUsers(){
@@ -37,11 +41,17 @@ public class AppUserController {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
 
+//    @PostMapping(value = "/appuser")
+//    public ResponseEntity<Object> saveAppUser(@RequestBody AppUser appUser) {
+//        long newId = appUserService.saveAppUser(appUser);
+//        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+//        }
+
     @PostMapping(value = "/appuser")
-    public ResponseEntity<Object> saveAppUser(@RequestBody AppUser appUser) {
-        long newId = appUserService.saveAppUser(appUser);
+    public ResponseEntity<Object> addAppUser(@RequestBody AppUser appUser) {
+        long newId = appUserService.addAppUser(appUser);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
-        }
+    }
 
     @PutMapping(value = "/appuser/{id}")
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUser appUser) {

@@ -3,9 +3,10 @@ package nl.eindopdracht.bootcamp.service;
 import nl.eindopdracht.bootcamp.exeption.DatabaseErrorException;
 import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
 import nl.eindopdracht.bootcamp.model.AppUser;
-import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public class AppUserServiceImpl implements AppUserService {
 
     @Autowired
-    AppUserRepository appUserRepository;
+    private AppUserRepository appUserRepository; //wel of geen private hiervoor?
 
     @Override
     public List<AppUser> getAllAppUsers() {
@@ -30,11 +31,21 @@ public class AppUserServiceImpl implements AppUserService {
         }
     }
 
+//    @Override
+//    public long saveAppUser(AppUser appUser) {
+//        AppUser newAppUser = appUserRepository.save(appUser);
+//        return newAppUser.getAppUserid();
+//    }
+
     @Override
-    public long saveAppUser(AppUser appUser) {
-        AppUser newAppUser = appUserRepository.save(appUser);
-        return newAppUser.getAppUserid();
-    }
+    public long addAppUser(AppUser appUser) {
+        if(!appUserRepository.existsByEmail(appUser.getEmail())) {
+            AppUser newAppUser = appUserRepository.save(appUser);
+            return newAppUser.getAppUserid();
+        }
+        else
+            throw new RecordNotFoundException();
+        }
 
     @Override
     public void updateAppUser(long id, AppUser appUser) {

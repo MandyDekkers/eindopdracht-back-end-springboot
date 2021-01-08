@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,6 +38,8 @@ public class AppUser {
 //    @ManyToOne
 //    private Address place;
 
+    @ManyToMany
+    private List<Lesson> lessons;
 
     public Long getAppUserid() {
         return AppUserid;
@@ -86,6 +89,10 @@ public class AppUser {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public void setAppUserid(long appUserid) {
+        AppUserid = appUserid;
+    }
+
 //    public Address getPlace() {
 //        return place;
 //    }
@@ -93,4 +100,12 @@ public class AppUser {
 //    public void setPlace(Address place) {
 //        this.place = place;
 //    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
 }
