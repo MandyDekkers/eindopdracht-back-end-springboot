@@ -12,8 +12,12 @@ import java.util.List;
 @Service
 public class LessonServiceImpl implements LessonService {
 
+    private LessonRepository lessonRepository; //wel of geen privater hiervoor?
+
     @Autowired
-    LessonRepository lessonRepository;
+    public void setLessonRepository(LessonRepository lessonRepository) {
+        this.lessonRepository = lessonRepository;
+    }
 
     @Override
     public List<Lesson> getAllLessons() {

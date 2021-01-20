@@ -5,6 +5,7 @@ import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.repository.AddressRepository;
 import nl.eindopdracht.bootcamp.service.AddressService;
+import nl.eindopdracht.bootcamp.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,19 @@ import java.util.List;
 @RestController
 public class AddressController {
 
-    @Autowired
     private AddressService addressService;
+
+    @Autowired
+    public void setAddressService(AddressService addressService) {
+        this.addressService = addressService;
+    }
+
+    private AppUserService appUserService;
+
+    @Autowired
+    public void setAppUserService(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
 
     @GetMapping(value = "/address")
     public ResponseEntity<Object> getAllAddresses() {

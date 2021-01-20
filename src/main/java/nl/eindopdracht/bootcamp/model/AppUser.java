@@ -1,52 +1,72 @@
 package nl.eindopdracht.bootcamp.model;
 
+import com.sun.istack.NotNull;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "appUser")
+@Table(name = "appuser")
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long AppUserid;
+    @Column(name = "id")
+    private Long appUserId;
 
+    @NotNull
     @Column(name = "firstname")
     private String firstName;
 
+    @NotNull
     @Column(name = "lastname")
     private String lastName;
 
+    @NotNull
     @Column(name = "email")
     private String email;
 
+    @NotNull
     @Column(name = "phonenumber")
     private String phoneNumber;
 
+    @NotNull
     @Column(name = "dateofbirth")
     private String dateOfBirth;
 
-//    @ManyToOne
-//    private Address place;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Address address;
 
     @ManyToMany
-    private List<Lesson> lessons;
+    @JoinTable(
+            name = "reserved_lessons",
+            joinColumns = @JoinColumn(name = "appUser_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
 
-    public Long getAppUserid() {
-        return AppUserid;
+
+    private Set<Lesson> lessons;
+
+    public Long getAppUserId() {
+        return appUserId;
     }
 
-    public void setAppUserid(Long appUserid) {
-        AppUserid = appUserid;
+    public void setAppUserId(Long appUserId) {
+        this.appUserId = appUserId;
     }
 
     public String getFirstName() {
@@ -89,23 +109,19 @@ public class AppUser {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setAppUserid(long appUserid) {
-        AppUserid = appUserid;
+    public Address getAddress() {
+        return address;
     }
 
-//    public Address getPlace() {
-//        return place;
-//    }
-//
-//    public void setPlace(Address place) {
-//        this.place = place;
-//    }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-    public List<Lesson> getLessons() {
+    public Set<Lesson> getLessons() {
         return lessons;
     }
 
-    public void setLessons(List<Lesson> lessons) {
+    public void setLessons(Set<Lesson> lessons) {
         this.lessons = lessons;
     }
 }

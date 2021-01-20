@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
+    private AppUserRepository appUserRepository;
+
     @Autowired
-    private AppUserRepository appUserRepository; //wel of geen private hiervoor?
+    public void setAppUserRepository(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
 
     @Override
     public List<AppUser> getAllAppUsers() {
@@ -30,22 +34,6 @@ public class AppUserServiceImpl implements AppUserService {
             throw new RecordNotFoundException();
         }
     }
-
-//    @Override
-//    public long saveAppUser(AppUser appUser) {
-//        AppUser newAppUser = appUserRepository.save(appUser);
-//        return newAppUser.getAppUserid();
-//    }
-
-    @Override
-    public long addAppUser(AppUser appUser) {
-        if(!appUserRepository.existsByEmail(appUser.getEmail())) {
-            AppUser newAppUser = appUserRepository.save(appUser);
-            return newAppUser.getAppUserid();
-        }
-        else
-            throw new RecordNotFoundException();
-        }
 
     @Override
     public void updateAppUser(long id, AppUser appUser) {
@@ -77,5 +65,30 @@ public class AppUserServiceImpl implements AppUserService {
             throw new RecordNotFoundException();
         }
     }
+
+    @Override
+    public AppUser getAppUserByLastName(String lastName) {
+        return appUserRepository.findByLastNameIgnoreCase(lastName);
+    }
+
+    @Override
+    public ResponseEntity<?> addAppUser(AppUser appUser) {
+        if(!appUserRepository.existsByEmail(appUser.getEmail())){
+            AppUser savedAppUser = appUserRepository.save(appUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedAppUser);
+        }
+        return ResponseEntity.status(500).body("Email is not unique."); //response in controller
+    }
+
+//PETER:
+    //    @Override
+//    public long addAppUser(AppUser appUser) {
+//        if(!appUserRepository.existsByEmail(appUser.getEmail())) {
+//            AppUser newAppUser = appUserRepository.save(appUser);
+//            return newAppUser.getId();
+//        }
+//        else
+//            throw new RecordNotFoundException();
+//        }
 
 }

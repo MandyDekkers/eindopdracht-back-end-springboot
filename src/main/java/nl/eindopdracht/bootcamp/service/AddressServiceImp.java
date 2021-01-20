@@ -13,7 +13,11 @@ import java.util.List;
 public class AddressServiceImp implements AddressService {
 
     @Autowired
-    AddressRepository addressRepository;
+    private AddressRepository addressRepository; //wel of geen private ervoor?
+
+    public void setAddressRepository(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
 
     @Override
     public List<Address> getAllAddresses() {
@@ -32,7 +36,7 @@ public class AddressServiceImp implements AddressService {
     @Override
     public long saveAddress(Address address) {
         Address newAddress = addressRepository.save(address);
-        return newAddress.getId();
+        return newAddress.getAddressId();
     }
 
     @Override
@@ -42,7 +46,6 @@ public class AddressServiceImp implements AddressService {
                 Address existingAddress = addressRepository.findById(id).orElse(null);
                 existingAddress.setStreetName(address.getStreetName());
                 existingAddress.setHouseNumber(address.getHouseNumber());
-                existingAddress.setHouseNumberAdd(address.getHouseNumberAdd());
                 existingAddress.setPostalCode(address.getPostalCode());
                 addressRepository.save(existingAddress);
             }

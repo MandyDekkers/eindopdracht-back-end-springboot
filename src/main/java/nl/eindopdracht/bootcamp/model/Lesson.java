@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "lesson")
@@ -17,11 +18,20 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lessonId;
 
+    @Column(name = "kindOfLesson")
+    private String lessonName;
+
     @Column(name = "location")
     private String location;
 
+    @Column(name = "date")
+    private String date;
+
+    @Column(name = "maxAmountOfMembers")
+    private int amountMembers;
+
     @ManyToMany
-    private List<AppUser> users;
+    private Set<AppUser> appUsers;
 
     public Long getLessonId() {
         return lessonId;
@@ -29,6 +39,30 @@ public class Lesson {
 
     public void setLessonId(Long lessonId) {
         this.lessonId = lessonId;
+    }
+
+    public String getLessonName() {
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getAmountMembers() {
+        return amountMembers;
+    }
+
+    public void setAmountMembers(int amountMembers) {
+        this.amountMembers = amountMembers;
     }
 
     public String getLocation() {
@@ -39,11 +73,11 @@ public class Lesson {
         this.location = location;
     }
 
-    public List<AppUser> getUsers() {
-        return users;
+    public Set<AppUser> getAppUsers() {
+        return appUsers;
     }
 
-    public void setUsers(List<AppUser> users) {
-        this.users = users;
+    public void setAppUsers(Set<AppUser> appUsers) {
+        this.appUsers = appUsers;
     }
 }

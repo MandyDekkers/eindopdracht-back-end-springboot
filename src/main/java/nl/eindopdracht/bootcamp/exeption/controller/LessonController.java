@@ -1,6 +1,7 @@
 package nl.eindopdracht.bootcamp.exeption.controller;
 
 import nl.eindopdracht.bootcamp.model.Lesson;
+import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,13 @@ public class LessonController {
     @Autowired
     public void setLessonService(LessonService lessonService) {
         this.lessonService = lessonService;
+    }
+
+    private AppUserService appUserService;
+
+    @Autowired
+    public void setAppUserService(AppUserService appUserService) {
+        this.appUserService = appUserService;
     }
 
     @GetMapping(value = "/lesson")
