@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -49,8 +50,10 @@ public class AppUser {
     @Column(name = "dateofbirth")
     private String dateOfBirth;
 
+
     @OneToOne(fetch = FetchType.EAGER)
     private Address address;
+
 
     @ManyToMany
     @JoinTable(
@@ -59,7 +62,7 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
 
 
-    private Set<Lesson> lessons;
+    private Set<Lesson> lessons = new HashSet<>();
 
     public Long getAppUserId() {
         return appUserId;

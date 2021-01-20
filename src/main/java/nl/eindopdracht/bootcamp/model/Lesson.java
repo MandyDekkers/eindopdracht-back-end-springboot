@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,8 +31,8 @@ public class Lesson {
     @Column(name = "maxAmountOfMembers")
     private int amountMembers;
 
-    @ManyToMany
-    private Set<AppUser> appUsers;
+    @ManyToMany (mappedBy = "lessons")
+    private Set<AppUser> appUsers = new HashSet<>();
 
     public Long getLessonId() {
         return lessonId;
