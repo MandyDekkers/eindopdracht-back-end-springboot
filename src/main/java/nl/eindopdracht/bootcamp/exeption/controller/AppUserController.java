@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "appuser")
 @CrossOrigin(origins = "http://localhost:3000")
+
 public class AppUserController {
 
     private AppUserService appUserService;
@@ -45,25 +48,30 @@ public class AppUserController {
         this.lessonService = lessonService;
     }
 
-    @GetMapping(value = "/appuser")
+    @GetMapping(value = "")
     public ResponseEntity<Object> getAllAppUsers(){
         List<AppUser> appUsers = appUserService.getAllAppUsers();
         return new ResponseEntity<>(appUsers, HttpStatus.OK);
         }
 
-    @GetMapping(value = "/appuser/{id}")
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(appUserService.getAppUser(username));
+    }
+
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getAppUser(@PathVariable("id") long id) {
         AppUser appUser = appUserService.getAppUsersById(id);
         return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
 
-    @GetMapping(value = "/appuser/lastname/{lastName}")
+    @GetMapping(value = "/lastname/{lastName}")
     public ResponseEntity<Object> getAppUserByLastName(@PathVariable("lastName") String lastName) {
         AppUser appUser = appUserService.getAppUserByLastName(lastName);
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/appuser")
+    @PostMapping(value = "/register")
     public ResponseEntity<?> saveAppUser(@RequestBody AppUser appUser) {
         return appUserService.addAppUser(appUser);
         }
@@ -74,13 +82,13 @@ public class AppUserController {
 //        return new ResponseEntity<>(newId, HttpStatus.CREATED);
 //    }
 
-    @PutMapping(value = "/appuser/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUser appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
         }
 
-    @DeleteMapping(value = "/appuser/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);

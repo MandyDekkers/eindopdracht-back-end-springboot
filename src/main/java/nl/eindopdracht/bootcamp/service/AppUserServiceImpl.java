@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
@@ -78,6 +79,11 @@ public class AppUserServiceImpl implements AppUserService {
             return ResponseEntity.status(HttpStatus.CREATED).body(savedAppUser);
         }
         return ResponseEntity.status(500).body("Email is not unique."); //response in controller
+    }
+
+    @Override
+    public Optional<AppUser> getAppUser(String username) {
+        return appUserRepository.findById(username);
     }
 
 //PETER:

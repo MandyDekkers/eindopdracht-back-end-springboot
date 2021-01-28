@@ -5,6 +5,7 @@ import nl.eindopdracht.bootcamp.exeption.DatabaseErrorException;
 import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,11 @@ public class ExceptionController {
     @ExceptionHandler(value = DatabaseErrorException.class)
     public ResponseEntity<Object> exception(DatabaseErrorException exception) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ResponseEntity<Object> exception(UsernameNotFoundException exception) {
+        return ResponseEntity.badRequest().build();
     }
 
 }

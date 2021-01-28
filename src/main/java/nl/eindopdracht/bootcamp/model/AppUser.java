@@ -1,6 +1,7 @@
 package nl.eindopdracht.bootcamp.model;
 
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,50 +27,69 @@ import java.util.Set;
 public class AppUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long appUserId;
+    @Column(name="appuserid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long appUserId;
 
-    @NotNull
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "firstname")
     private String firstName;
 
-    @NotNull
     @Column(name = "lastname")
     private String lastName;
 
-    @NotNull
     @Column(name = "email")
     private String email;
 
-    @NotNull
     @Column(name = "phonenumber")
     private String phoneNumber;
 
-    @NotNull
     @Column(name = "dateofbirth")
     private String dateOfBirth;
 
+    @OneToMany(
+            targetEntity = nl.eindopdracht.bootcamp.model.Authority.class,
+            mappedBy = "username",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<nl.eindopdracht.bootcamp.model.Authority> authorities = new HashSet<>();
 
+    //twee relaties:
     @OneToOne(fetch = FetchType.EAGER)
     private Address address;
 
+    @ManyToMany(mappedBy = "appUsers")
+    private Set<Lesson> lessons;
 
-    @ManyToMany
-    @JoinTable(
-            name = "reserved_lessons",
-            joinColumns = @JoinColumn(name = "appUser_id"),
-            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
-
-
-    private Set<Lesson> lessons = new HashSet<>();
-
-    public Long getAppUserId() {
+    //getters en setters:
+    public long getAppUserId() {
         return appUserId;
     }
 
-    public void setAppUserId(Long appUserId) {
+    public void setAppUserId(long appUserId) {
         this.appUserId = appUserId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -126,5 +146,21 @@ public class AppUser {
 
     public void setLessons(Set<Lesson> lessons) {
         this.lessons = lessons;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
     }
 }

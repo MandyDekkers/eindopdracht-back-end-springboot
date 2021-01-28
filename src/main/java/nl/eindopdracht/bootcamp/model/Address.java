@@ -22,35 +22,23 @@ public class Address {
     @Column(name = "id")
     private long AddressId;
 
-    @NotNull
-    @Column(name = "streetName")
+    @Column(name = "streetname")
     private String streetName;
 
-    @NotNull
-    @Column(name = "houseNumber")
+    @Column(name = "housenumber")
     private String houseNumber;
 
-    @NotNull
-    @Column(name = "postalCode")
+    @Column(name = "postalcode")
     private String postalCode;
 
-    @NotNull
     @Column(name = "city")
     private String city;
 
-
+    //één relatie met AppUser:
     @OneToOne(mappedBy = "address")
     private AppUser appuser;
 
-
-    public AppUser getAppuser() {
-        return appuser;
-    }
-
-    public void setAppuser(AppUser appuser) {
-        this.appuser = appuser;
-    }
-
+    //getters en setters:
     public long getAddressId() {
         return AddressId;
     }
@@ -89,5 +77,13 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public AppUser getAppuser() {
+        return appuser;
+    }
+
+    public void setAppuser(AppUser appuser) {
+        this.appuser = appuser;
     }
 }

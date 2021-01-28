@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "lesson")
 @CrossOrigin(origins = "http://localhost:3000")
 public class LessonController {
 
@@ -35,31 +37,31 @@ public class LessonController {
         this.appUserService = appUserService;
     }
 
-    @GetMapping(value = "/lesson")
+    @GetMapping(value = "")
     public ResponseEntity<Object> getLessons(){
         List<Lesson> lessons = lessonService.getAllLessons();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/lesson/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getLesson(@PathVariable("id") long id) {
         Lesson lesson = lessonService.getLessonById(id);
         return new ResponseEntity<>(lesson, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/lesson")
+    @PostMapping(value = "")
     public ResponseEntity<Object> saveLesson(@RequestBody Lesson lesson) {
         long newId = lessonService.saveLesson(lesson);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/lesson/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateLesson(@PathVariable("id") int id, @RequestBody Lesson lesson) {
         lessonService.updateLesson(id, lesson);
         return new ResponseEntity<>("Les is geupdated!", HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/lesson/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteLesson(@PathVariable("id") long id) {
         lessonService.deleteLesson(id);
         return new ResponseEntity<>("Les is verwijderd", HttpStatus.OK);

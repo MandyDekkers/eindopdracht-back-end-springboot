@@ -19,7 +19,7 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lessonId;
 
-    @Column(name = "kindOfLesson")
+    @Column(name = "kindoflesson")
     private String lessonName;
 
     @Column(name = "location")
@@ -28,12 +28,14 @@ public class Lesson {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "maxAmountOfMembers")
+    @Column(name = "maxamountofmembers")
     private int amountMembers;
 
+    //één relatie met AppUser:
     @ManyToMany (mappedBy = "lessons")
-    private Set<AppUser> appUsers = new HashSet<>();
+    private Set<AppUser> appUsers;
 
+    //getters en setters:
     public Long getLessonId() {
         return lessonId;
     }
@@ -50,6 +52,14 @@ public class Lesson {
         this.lessonName = lessonName;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getDate() {
         return date;
     }
@@ -64,14 +74,6 @@ public class Lesson {
 
     public void setAmountMembers(int amountMembers) {
         this.amountMembers = amountMembers;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Set<AppUser> getAppUsers() {
