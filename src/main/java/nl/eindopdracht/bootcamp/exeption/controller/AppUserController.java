@@ -54,11 +54,6 @@ public class AppUserController {
         return new ResponseEntity<>(appUsers, HttpStatus.OK);
         }
 
-    @GetMapping(value = "/{username}")
-    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
-        return ResponseEntity.ok().body(appUserService.getAppUser(username));
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getAppUser(@PathVariable("id") long id) {
         AppUser appUser = appUserService.getAppUsersById(id);
@@ -75,6 +70,7 @@ public class AppUserController {
     public ResponseEntity<?> saveAppUser(@RequestBody AppUser appUser) {
         return appUserService.addAppUser(appUser);
         }
+
 //PETER:
 //    @PostMapping(value = "/appuser")
 //    public ResponseEntity<Object> addAppUser(@RequestBody AppUser appUser) {

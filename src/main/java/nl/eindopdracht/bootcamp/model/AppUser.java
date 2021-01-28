@@ -1,6 +1,5 @@
 package nl.eindopdracht.bootcamp.model;
 
-import com.sun.istack.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -13,13 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,53 +23,62 @@ import java.util.Set;
 public class AppUser {
 
     @Id
-    @Column(name="appuserid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long appUserId;
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
 
-    @Column(name = "username")
+    @Column(columnDefinition = "serial")
+    private long id;
     private String username;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "firstname")
     private String firstName;
-
-    @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "phonenumber")
     private String phoneNumber;
-
-    @Column(name = "dateofbirth")
     private String dateOfBirth;
 
-    @OneToMany(
-            targetEntity = nl.eindopdracht.bootcamp.model.Authority.class,
-            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
-    private Set<nl.eindopdracht.bootcamp.model.Authority> authorities = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-    //twee relaties:
     @OneToOne(fetch = FetchType.EAGER)
     private Address address;
 
-    @ManyToMany(mappedBy = "appUsers")
+    @ManyToMany//
+    // (mappedBy = "appUsers")
     private Set<Lesson> lessons;
 
-    //getters en setters:
-    public long getAppUserId() {
-        return appUserId;
+    //constructors
+    public AppUser() {
+
     }
 
-    public void setAppUserId(long appUserId) {
-        this.appUserId = appUserId;
+    public AppUser(String username, String password, String firstName, String lastName, String email, String phoneNumber, String dateOfBirth, Address address) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
+
+    //getters en setters:
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -132,6 +137,14 @@ public class AppUser {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public Address getAddress() {
         return address;
     }
@@ -146,21 +159,5 @@ public class AppUser {
 
     public void setLessons(Set<Lesson> lessons) {
         this.lessons = lessons;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public void addAuthority(Authority authority) {
-        this.authorities.add(authority);
-    }
-
-    public void removeAuthority(Authority authority) {
-        this.authorities.remove(authority);
     }
 }

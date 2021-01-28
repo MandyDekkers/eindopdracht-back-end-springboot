@@ -81,11 +81,6 @@ public class AppUserServiceImpl implements AppUserService {
         return ResponseEntity.status(500).body("Email is not unique."); //response in controller
     }
 
-    @Override
-    public Optional<AppUser> getAppUser(String username) {
-        return appUserRepository.findById(username);
-    }
-
 //PETER:
     //    @Override
 //    public long addAppUser(AppUser appUser) {
