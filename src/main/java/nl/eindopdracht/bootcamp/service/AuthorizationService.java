@@ -79,9 +79,13 @@ public class AuthorizationService {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        AppUser appUser = new AppUser(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
+
+        if(signUpRequest.getFirstName() != null && !signUpRequest.getFirstName().isEmpty()) {
+            appUser.setFirstName(signUpRequest.getFirstName());
+        }
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

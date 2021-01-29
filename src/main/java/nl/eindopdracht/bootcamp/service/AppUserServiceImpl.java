@@ -44,8 +44,6 @@ public class AppUserServiceImpl implements AppUserService {
                 existingAppUser.setFirstName(appUser.getFirstName());
                 existingAppUser.setLastName(appUser.getLastName());
                 existingAppUser.setEmail(appUser.getEmail());
-                existingAppUser.setPhoneNumber(appUser.getPhoneNumber());
-                existingAppUser.setDateOfBirth(appUser.getDateOfBirth());
                 appUserRepository.save(existingAppUser);
             }
             catch (Exception ex) {

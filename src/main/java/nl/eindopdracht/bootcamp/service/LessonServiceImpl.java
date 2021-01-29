@@ -36,7 +36,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public long saveLesson(Lesson lesson) {
         Lesson newLesson = lessonRepository.save(lesson);
-        return newLesson.getLessonId();
+        return newLesson.getId();
     }
 
     @Override
@@ -44,7 +44,8 @@ public class LessonServiceImpl implements LessonService {
         if (lessonRepository.existsById(id)) {
             try {
                 Lesson existingLesson = lessonRepository.findById(id).orElse(null);
-                existingLesson.setLocation(lesson.getLocation());
+                existingLesson.setName(lesson.getName());
+                existingLesson.setNiveau(lesson.getNiveau());
                 lessonRepository.save(existingLesson);
             }
             catch (Exception ex) {

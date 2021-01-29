@@ -17,70 +17,62 @@ public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(name = "kindoflesson")
-    private String lessonName;
-
-    @Column(name = "location")
-    private String location;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "date")
     private String date;
 
-    @Column(name = "maxamountofmembers")
-    private int amountMembers;
+    @Column(name = "amountMembers")
+    private String maxAmountMembers;
 
-    //één relatie met AppUser:
-    @ManyToMany (mappedBy = "lessons")
-    private Set<AppUser> appUsers;
+    @Column(name = "niveau")
+    private String niveau;
 
-    //getters en setters:
-    public Long getLessonId() {
+    @ManyToMany(mappedBy = "lessons")
+    Set<AppUser> appusers;
+
+    public long getId() {
         return id;
     }
 
-    public void setLessonId(Long lessonId) {
-        this.id = lessonId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getLessonName() {
-        return lessonName;
+    public String getName() {
+        return name;
     }
 
-    public void setLessonName(String lessonName) {
-        this.lessonName = lessonName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public String getMaxAmountMembers() {
+        return maxAmountMembers;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setMaxAmountMembers(String maxAmountMembers) {
+        this.maxAmountMembers = maxAmountMembers;
     }
 
-    public String getDate() {
-        return date;
+    public String getNiveau() {
+        return niveau;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setNiveau(String niveau) {
+        this.niveau = niveau;
     }
 
-    public int getAmountMembers() {
-        return amountMembers;
+    public Set<AppUser> getAppusers() {
+        return appusers;
     }
 
-    public void setAmountMembers(int amountMembers) {
-        this.amountMembers = amountMembers;
-    }
-
-    public Set<AppUser> getAppUsers() {
-        return appUsers;
-    }
-
-    public void setAppUsers(Set<AppUser> appUsers) {
-        this.appUsers = appUsers;
+    public void setAppusers(Set<AppUser> appusers) {
+        this.appusers = appusers;
     }
 }
+
+

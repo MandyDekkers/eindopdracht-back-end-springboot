@@ -36,42 +36,49 @@ public class AppUser {
     private long id;
     private String username;
     private String password;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
-    private String phoneNumber;
-    private String dateOfBirth;
 
     @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Address address;
 
-    @ManyToMany//
-    // (mappedBy = "appUsers")
-    private Set<Lesson> lessons;
+    @ManyToMany
+    Set<Lesson>lessons;
 
     //constructors
     public AppUser() {
 
     }
 
-    public AppUser(String username, String password, String firstName, String lastName, String email, String phoneNumber, String dateOfBirth, Address address) {
+    public AppUser(String username, String password, String email, String firstName, String lastName, String phoneNumber, Set<Role> roles, Address address) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
+        this.roles = roles;
         this.address = address;
     }
 
+    public AppUser(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     //getters en setters:
+
+    public Set<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<Lesson> lessons) {
+        this.lessons = lessons;
+    }
 
     public long getId() {
         return id;
@@ -97,46 +104,6 @@ public class AppUser {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -153,11 +120,28 @@ public class AppUser {
         this.address = address;
     }
 
-    public Set<Lesson> getLessons() {
-        return lessons;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLessons(Set<Lesson> lessons) {
-        this.lessons = lessons;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 }
