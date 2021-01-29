@@ -46,8 +46,8 @@ public class AppUser {
     @OneToOne(fetch = FetchType.EAGER)
     private Address address;
 
-    @ManyToMany
-    Set<Lesson>lessons;
+    @OneToMany(mappedBy = "appUser")
+    Set<Reservation> reservations;
 
     //constructors
     public AppUser() {
@@ -71,14 +71,6 @@ public class AppUser {
     }
 
     //getters en setters:
-
-    public Set<Lesson> getLessons() {
-        return lessons;
-    }
-
-    public void setLessons(Set<Lesson> lessons) {
-        this.lessons = lessons;
-    }
 
     public long getId() {
         return id;
@@ -144,4 +136,11 @@ public class AppUser {
         this.lastName = lastName;
     }
 
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

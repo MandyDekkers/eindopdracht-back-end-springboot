@@ -14,12 +14,6 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-}
-@Entity
-class CourseRegistration {
-
-    @Id
-    Long id;
 
     @ManyToOne
     @JoinColumn(name = "appuser_id")

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +32,8 @@ public class Lesson {
     @Column(name = "niveau")
     private String niveau;
 
-    @ManyToMany(mappedBy = "lessons")
-    Set<AppUser> appusers;
+    @OneToMany(mappedBy = "lesson")
+    Set<Reservation> reservations;
 
     public long getId() {
         return id;
@@ -66,12 +67,20 @@ public class Lesson {
         this.niveau = niveau;
     }
 
-    public Set<AppUser> getAppusers() {
-        return appusers;
+    public String getDate() {
+        return date;
     }
 
-    public void setAppusers(Set<AppUser> appusers) {
-        this.appusers = appusers;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
 
