@@ -1,4 +1,4 @@
-package nl.eindopdracht.bootcamp.exeption.controller;
+package nl.eindopdracht.bootcamp.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

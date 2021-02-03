@@ -1,4 +1,4 @@
-package nl.eindopdracht.bootcamp.service.security;
+package nl.eindopdracht.bootcamp.security;
 
 import nl.eindopdracht.bootcamp.jwt.AuthEntryPointJwt;
 import nl.eindopdracht.bootcamp.jwt.AuthTokenFilter;
@@ -61,7 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//                .anyRequest().authenticated();
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -1,8 +1,11 @@
-package nl.eindopdracht.bootcamp.exeption.controller;
+package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.model.Lesson;
+import nl.eindopdracht.bootcamp.model.Reservation;
+import nl.eindopdracht.bootcamp.model.ReservationKey;
 import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.LessonService;
+import nl.eindopdracht.bootcamp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,6 +40,13 @@ public class LessonController {
     @Autowired
     public void setAppUserService(AppUserService appUserService) {
         this.appUserService = appUserService;
+    }
+
+    private ReservationService reservationService;
+
+    @Autowired
+    public void setReservationService(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
     @GetMapping(value = "")
@@ -65,6 +77,29 @@ public class LessonController {
     public ResponseEntity<Object> deleteLesson(@PathVariable("id") long id) {
         lessonService.deleteLesson(id);
         return new ResponseEntity<>("Les is verwijderd", HttpStatus.OK);
+    }
+
+//    @GetMapping(value = "/{id}/appusers")
+//    public ResponseEntity<Object> getReservations(@PathVariable("id") long id) {
+//        return ResponseEntity.ok().body(reservationService.getReservationsByLessonId(id));
+//    }
+//
+//    @GetMapping(value = "/{lesson_id}/appusers/{appuser_id}")
+//    public ResponseEntity<Object> getReservation (@PathVariable("lesson_id") long lessonId,
+//                                                         @PathVariable("appuser_id") long appuserId) {
+//        return ResponseEntity.ok().body(reservationService.getReservationById(appuserId, lessonId));
+//    }
+
+    //geeft een locatie terug http.... en voegt reservation toe
+    @PostMapping(value = "/{lesson_id}/appusers/{appuser_id}")
+    public ResponseEntity<Object> addMemberToLesson(@PathVariable("lesson_id") long lessonId,
+                                                         @PathVariable("appuser_id") long appuserId,
+                                                         @RequestBody Reservation reservation) {
+        ReservationKey newId = reservationService.addMember(lessonId, appuserId, reservation);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+
+        return ResponseEntity.created(location).body(location);
     }
 
 }

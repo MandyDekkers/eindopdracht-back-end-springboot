@@ -1,5 +1,7 @@
 package nl.eindopdracht.bootcamp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +33,15 @@ public class Address {
 
     //één relatie met AppUser:
     @OneToOne(mappedBy = "address")
+//    @JsonIgnore
     private AppUser appuser;
+
+    public Address(String streetName, String houseNumber, String postalCode, String city) {
+        this.streetName = streetName;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
 
     //getters en setters:
     public long getAddressId() {

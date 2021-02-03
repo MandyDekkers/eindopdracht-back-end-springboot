@@ -1,13 +1,16 @@
 package nl.eindopdracht.bootcamp.service;
 
 import nl.eindopdracht.bootcamp.jwt.JwtUtils;
+import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
+import nl.eindopdracht.bootcamp.model.AppUserBuilder;
 import nl.eindopdracht.bootcamp.model.ERole;
 import nl.eindopdracht.bootcamp.model.Role;
 import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
+import nl.eindopdracht.bootcamp.repository.AddressRepository;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.RoleRepository;
 
@@ -39,6 +42,14 @@ public class AuthorizationService {
     private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
 
+
+    AddressRepository addressRepository;
+
+    @Autowired
+    public void setAddressRepository(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
     @Autowired
     public void setUserRepository(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
@@ -64,7 +75,6 @@ public class AuthorizationService {
         this.jwtUtils = jwtUtils;
     }
 
-
     public ResponseEntity<MessageResponse> registerUser(@Valid SignupRequest signUpRequest) {
         if (Boolean.TRUE.equals(appUserRepository.existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
@@ -78,14 +88,25 @@ public class AuthorizationService {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
-        AppUser appUser = new AppUser(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        //        // Create new user's account
+//        AppUser appUser = new AppUser(signUpRequest.getUsername(),
+//                signUpRequest.getEmail(),
+//                encoder.encode(signUpRequest.getPassword()));
+//
+//        if(signUpRequest.getFirstName() != null && !signUpRequest.getFirstName().isEmpty()) {
+//            appUser.setFirstName(signUpRequest.getFirstName());
+//        }
+//
+//        if(signUpRequest.getLastName() != null && !signUpRequest.getLastName().isEmpty()) {
+//            appUser.setLastName(signUpRequest.getLastName());
+//        }
 
-        if(signUpRequest.getFirstName() != null && !signUpRequest.getFirstName().isEmpty()) {
-            appUser.setFirstName(signUpRequest.getFirstName());
-        }
+            AppUser appUser = new AppUserBuilder(signUpRequest).buildAppUser();
+            Address address = new AppUserBuilder(signUpRequest).buildAddress();
+
+            Address savedAddress = addressRepository.save(address);
+            appUser.setAddress(savedAddress);
+            address.setAppuser(appUser);
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

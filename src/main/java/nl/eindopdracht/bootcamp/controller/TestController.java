@@ -1,4 +1,4 @@
-package nl.eindopdracht.bootcamp.exeption.controller;
+package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;

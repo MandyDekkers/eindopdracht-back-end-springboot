@@ -1,6 +1,8 @@
 package nl.eindopdracht.bootcamp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.web.ProjectedPayload;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,9 +46,11 @@ public class AppUser {
     private Set<Role> roles;
 
     @OneToOne(fetch = FetchType.EAGER)
+//    @JsonIgnore
     private Address address;
 
     @OneToMany(mappedBy = "appUser")
+//    @JsonIgnore
     Set<Reservation> reservations;
 
     //constructors
@@ -54,7 +58,15 @@ public class AppUser {
 
     }
 
-    public AppUser(String username, String password, String email, String firstName, String lastName, String phoneNumber, Set<Role> roles, Address address) {
+    public AppUser(String username, String password, String email, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public AppUser(String username, String password, String email, String firstName, String lastName, Set<Role> roles, Address address) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -143,4 +155,6 @@ public class AppUser {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+
 }

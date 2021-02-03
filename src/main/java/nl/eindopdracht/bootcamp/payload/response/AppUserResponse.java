@@ -1,46 +1,28 @@
-package nl.eindopdracht.bootcamp.payload.request;
+package nl.eindopdracht.bootcamp.payload.response;
 
 import javax.persistence.Column;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
-public class SignupRequest {
+public class AppUserResponse {
 
-    @NotBlank
-    @Size(min = 3, max = 20)
-    private String username;
-
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    //AppUser
     private String email;
-
-    @NotBlank
-    @Size(min = 6, max = 40)
-    private String password;
-
     private String firstName;
-
     private String lastName;
 
+    //Address
     private String streetName;
-
     private String houseNumber;
-
     private String postalCode;
-
     private String city;
 
-    private Set<String> role;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public AppUserResponse() {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.streetName = streetName;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
     }
 
     public String getEmail() {
@@ -49,14 +31,6 @@ public class SignupRequest {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -106,13 +80,4 @@ public class SignupRequest {
     public void setCity(String city) {
         this.city = city;
     }
-
-    public Set<String> getRole() {
-        return this.role;
-    }
-
-    public void setRole(Set<String> role) {
-        this.role = role;
-    }
 }
-

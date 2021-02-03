@@ -1,5 +1,7 @@
 package nl.eindopdracht.bootcamp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +35,7 @@ public class Lesson {
     private String niveau;
 
     @OneToMany(mappedBy = "lesson")
+    @JsonIgnore
     Set<Reservation> reservations;
 
     public long getId() {

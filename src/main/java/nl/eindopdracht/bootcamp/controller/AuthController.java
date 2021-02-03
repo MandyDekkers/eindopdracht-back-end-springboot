@@ -1,4 +1,4 @@
-package nl.eindopdracht.bootcamp.exeption.controller;
+package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;

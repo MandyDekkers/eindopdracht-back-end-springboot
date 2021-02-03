@@ -1,37 +1,68 @@
+//package nl.eindopdracht.bootcamp.model;
+//
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
+//import javax.persistence.JoinColumn;
+//import javax.persistence.ManyToMany;
+//import javax.persistence.ManyToOne;
+//
+//@Entity
+//public class Reservation {
+//
+//    @Id
+//    Long id;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "appuser_id")
+//    AppUser appUser;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "lesson_id")
+//    Lesson lesson;
+//
+//    private String comments;
+//}
+
 package nl.eindopdracht.bootcamp.model;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "reservation")
 public class Reservation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @EmbeddedId
+    private ReservationKey id;
 
     @ManyToOne
+    @MapsId("appUserId")
     @JoinColumn(name = "appuser_id")
-    AppUser appUser;
+    private AppUser appUser;
 
     @ManyToOne
+    @MapsId("lessonId")
     @JoinColumn(name = "lesson_id")
-    Lesson lesson;
+    private Lesson lesson;
 
-    LocalDateTime registeredAt;
+    @Column
+    private String comment;
 
-    String feedback;
-
-    public Long getId() {
+    public ReservationKey getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ReservationKey id) {
         this.id = id;
     }
 
@@ -51,19 +82,12 @@ public class Reservation {
         this.lesson = lesson;
     }
 
-    public LocalDateTime getRegisteredAt() {
-        return registeredAt;
+    public String getComment() {
+        return comment;
     }
 
-    public void setRegisteredAt(LocalDateTime registeredAt) {
-        this.registeredAt = registeredAt;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
+
