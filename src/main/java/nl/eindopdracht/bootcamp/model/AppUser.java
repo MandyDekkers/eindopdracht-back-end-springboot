@@ -1,6 +1,7 @@
 package nl.eindopdracht.bootcamp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.web.ProjectedPayload;
 
@@ -25,35 +26,56 @@ import java.util.Set;
 public class AppUser {
 
     @Id
-    @GeneratedValue(
-            strategy= GenerationType.AUTO,
-            generator="native"
-    )
-    @GenericGenerator(
-            name = "native",
-            strategy = "native"
-    )
-
-    @Column(columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+//    @Id
+//    @GeneratedValue(
+//            strategy= GenerationType.IDENTITY,
+//            generator="native"
+//    )
+//    @GenericGenerator(
+//            name = "native",
+//            strategy = "native"
+//    )
+//
+//    @Column(name = "id")
+//    private long id;
+
+    @NotNull
+    @Column(name = "username")
     private String username;
+
+    @NotNull
+    @Column(name = "password")
     private String password;
+
+    @NotNull
+    @Column(name = "email")
     private String email;
+
+    @NotNull
+    @Column(name = "first_name")
     private String firstName;
+
+    @NotNull
+    @Column(name = "last_name")
     private String lastName;
 
     @ManyToMany
     private Set<Role> roles;
 
-    @OneToOne(fetch = FetchType.EAGER)
-//    @JsonIgnore
+    @OneToOne(fetch=FetchType.LAZY,
+            mappedBy="appuser")
     private Address address;
 
+//    @OneToOne(fetch=FetchType.EAGER)
+//    private Address address;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "appUser")
-//    @JsonIgnore
     Set<Reservation> reservations;
 
-    //constructors
     public AppUser() {
 
     }
@@ -81,8 +103,6 @@ public class AppUser {
         this.email = email;
         this.password = password;
     }
-
-    //getters en setters:
 
     public long getId() {
         return id;
@@ -155,6 +175,5 @@ public class AppUser {
     public void setReservations(Set<Reservation> reservations) {
         this.reservations = reservations;
     }
-
 
 }

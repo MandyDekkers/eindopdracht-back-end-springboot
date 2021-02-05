@@ -1,6 +1,7 @@
 package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.model.AppUser;
+import nl.eindopdracht.bootcamp.model.AppUserBuilder;
 import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.model.Reservation;
 import nl.eindopdracht.bootcamp.model.ReservationKey;
@@ -71,6 +72,7 @@ public class AppUserController {
 //        return new ResponseEntity<>(appUsers, HttpStatus.OK);
 //    }
 
+    //RETOURNEERT DE APPUSERRESPONSE, WEL RARE TEKENS IN APPUSERRESPONS (CONSTRUCTOR)
     @GetMapping("")
     @ResponseBody
     public List<AppUserResponse> getAllAppUsers() {
@@ -78,14 +80,15 @@ public class AppUserController {
         return appUserResponses;
     }
 
+    //LOOP, GEEN APPUSERRESPONSE
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getAppUser(@PathVariable("id") long id) {
         AppUser appUser = appUserService.getAppUsersById(id);
         return new ResponseEntity<>(appUser, HttpStatus.OK);
-        }
+    }
 
 
-
+    //LOOP, EN WAT ALS ER TWEE DEZELFDE LASTNAMES ZIJN?
     @GetMapping(value = "/lastname/{lastName}")
     public ResponseEntity<Object> getAppUserByLastName(@PathVariable("lastName") String lastName) {
         AppUser appUser = appUserService.getAppUserByLastName(lastName);

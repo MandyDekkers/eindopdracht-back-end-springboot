@@ -30,12 +30,6 @@ public class AppUserServiceImpl implements AppUserService {
         this.appUserRepository = appUserRepository;
     }
 
-
-//    @Override
-//    public List<AppUser> getAllAppUsers() {
-//        return appUserRepository.findAll();
-//    }
-
     public List<AppUserResponse> getAllAppUsers() {
         return ((List<AppUser>) appUserRepository
                 .findAll())
@@ -44,10 +38,10 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     private AppUserResponse convertToAppUserResponse(AppUser appUser) {
-    modelMapper.getConfiguration()
-            .setMatchingStrategy(MatchingStrategies.LOOSE);
-            AppUserResponse appUserResponse = modelMapper
-                    .map(appUser, AppUserResponse.class);
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        AppUserResponse appUserResponse = modelMapper
+                .map(appUser, AppUserResponse.class);
 
 //        AppUserResponse appUserResponse = new AppUserResponse();
 //        appUserResponse.setEmail(appUser.getEmail());
@@ -66,7 +60,8 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser getAppUsersById(long id) {
         if (appUserRepository.existsById(id)) {
-            return appUserRepository.findById(id).orElse(null);
+            AppUser appuser = appUserRepository.findById(id).orElse(null);
+            return appuser;
         } else {
             throw new RecordNotFoundException();
         }

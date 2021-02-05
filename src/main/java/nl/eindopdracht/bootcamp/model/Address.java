@@ -1,12 +1,16 @@
 package nl.eindopdracht.bootcamp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -19,22 +23,32 @@ public class Address {
     @Column(name = "id")
     private long id;
 
+    @NotNull
     @Column(name = "streetname")
     private String streetName;
 
+    @NotNull
     @Column(name = "housenumber")
     private String houseNumber;
 
+    @NotNull
     @Column(name = "postalcode")
     private String postalCode;
 
+    @NotNull
     @Column(name = "city")
     private String city;
 
-    //één relatie met AppUser:
-    @OneToOne(mappedBy = "address")
-//    @JsonIgnore
+    @JsonIgnore
+    @OneToOne(fetch=FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval  = true)
+    @JoinColumn(name="appuser_id")
     private AppUser appuser;
+
+    public Address() {
+
+    }
 
     public Address(String streetName, String houseNumber, String postalCode, String city) {
         this.streetName = streetName;
@@ -43,13 +57,12 @@ public class Address {
         this.city = city;
     }
 
-    //getters en setters:
-    public long getAddressId() {
+    public long getId() {
         return id;
     }
 
-    public void setAddressId(long addressId) {
-        id = addressId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getStreetName() {

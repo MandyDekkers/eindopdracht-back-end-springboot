@@ -17,8 +17,8 @@ public class AppUserBuilder {
     private String postalCode;
     private String city;
 
-//    //Role
-//    private ERole name;
+    //Role
+    private ERole name;
 
     public AppUserBuilder(SignupRequest signupRequest) {
         this.email = signupRequest.getEmail();

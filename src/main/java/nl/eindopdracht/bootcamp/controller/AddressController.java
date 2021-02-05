@@ -49,7 +49,7 @@ public class AddressController {
         Address address = addressService.getAddressById(id);
         return new ResponseEntity<>(address, HttpStatus.OK);
     }
-
+//WERKT NIET EN NODIG? EEN ADRES WORDT VERPLICHT BIJ EEN NIEUWE USER AANGEMAAKT
     @PostMapping(value = "")
     public ResponseEntity<Object> saveAddress(@RequestBody Address address) {
         long newId = addressService.saveAddress(address);
@@ -62,6 +62,7 @@ public class AddressController {
         return new ResponseEntity<>("Adres is geupdated!", HttpStatus.OK);
     }
 
+//WERKT NIET EN NODIG? EEN ADRES IS VERPLICHT BIJ EEN APPUSER
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteAddress(@PathVariable("id") long id) {
         addressService.deleteAddress(id);

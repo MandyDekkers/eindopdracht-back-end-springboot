@@ -21,8 +21,6 @@ public class ReservationKey implements Serializable {
         this.lessonId = lessonId;
     }
 
-    // getters and setters
-
     public Long getAppUserId() {
         return appUserId;
     }

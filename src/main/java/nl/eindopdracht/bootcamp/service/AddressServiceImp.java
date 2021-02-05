@@ -36,7 +36,7 @@ public class AddressServiceImp implements AddressService {
     @Override
     public long saveAddress(Address address) {
         Address newAddress = addressRepository.save(address);
-        return newAddress.getAddressId();
+        return newAddress.getId();
     }
 
     @Override
