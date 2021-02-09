@@ -5,11 +5,11 @@ import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 public class AppUserBuilder {
 
     //AppUser
+    private String username;
     private String email;
+    private String password;
     private String firstName;
     private String lastName;
-    private String username;
-    private String password;
 
     //Address
     private String streetName;
@@ -21,11 +21,11 @@ public class AppUserBuilder {
     private ERole name;
 
     public AppUserBuilder(SignupRequest signupRequest) {
+        this.username = signupRequest.getUsername();
         this.email = signupRequest.getEmail();
+        this.password = signupRequest.getPassword();
         this.firstName = signupRequest.getFirstName();
         this.lastName = signupRequest.getLastName();
-        this.username = signupRequest.getUsername();
-        this.password = signupRequest.getPassword();
         this.streetName = signupRequest.getStreetName();
         this.houseNumber = signupRequest.getHouseNumber();
         this.postalCode = signupRequest.getPostalCode();
@@ -33,7 +33,7 @@ public class AppUserBuilder {
     }
 
     public AppUser buildAppUser(){
-        return new AppUser(email, firstName, lastName, username, password);
+        return new AppUser(username, email, password, firstName, lastName);
     }
 
     public Address buildAddress(){

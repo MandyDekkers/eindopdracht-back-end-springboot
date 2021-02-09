@@ -1,5 +1,7 @@
 package nl.eindopdracht.bootcamp.payload.response;
 
+import nl.eindopdracht.bootcamp.model.Address;
+
 import javax.persistence.Column;
 
 public class AppUserResponse {
@@ -16,6 +18,22 @@ public class AppUserResponse {
     private String city;
 
     public AppUserResponse() {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.streetName = streetName;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
+
+    public AppUserResponse(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public AppUserResponse(String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

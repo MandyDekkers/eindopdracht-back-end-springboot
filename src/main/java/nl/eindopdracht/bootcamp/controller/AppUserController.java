@@ -1,18 +1,14 @@
 package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.model.AppUser;
-import nl.eindopdracht.bootcamp.model.AppUserBuilder;
-import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.model.Reservation;
 import nl.eindopdracht.bootcamp.model.ReservationKey;
-import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
-import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
+import nl.eindopdracht.bootcamp.payload.response.ReservationDTO;
 import nl.eindopdracht.bootcamp.service.AddressService;
 import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.LessonService;
 import nl.eindopdracht.bootcamp.service.ReservationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -45,6 +41,7 @@ public class AppUserController {
         this.reservationService = reservationService;
     }
 
+    @Autowired
     private AppUserService appUserService;
 
     @Autowired
@@ -72,7 +69,7 @@ public class AppUserController {
 //        return new ResponseEntity<>(appUsers, HttpStatus.OK);
 //    }
 
-    //RETOURNEERT DE APPUSERRESPONSE, WEL RARE TEKENS IN APPUSERRESPONS (CONSTRUCTOR)
+    //WERKT! RETOURNEERT DE APPUSERRESPONSE
     @GetMapping("")
     @ResponseBody
     public List<AppUserResponse> getAllAppUsers() {
@@ -80,11 +77,17 @@ public class AppUserController {
         return appUserResponses;
     }
 
-    //LOOP, GEEN APPUSERRESPONSE
+    //GEEN APPUSERRESPONSE
+//    @GetMapping(value = "/{id}")
+//    public ResponseEntity<Object> getAppUser(@PathVariable("id") long id) {
+//        AppUser appUser = appUserService.getAppUsersById(id);
+//        return new ResponseEntity<>(appUser, HttpStatus.OK);
+//    }
+
+//WERKT, RETOURNEERT DE APPUSERRESPONSE
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getAppUser(@PathVariable("id") long id) {
-        AppUser appUser = appUserService.getAppUsersById(id);
-        return new ResponseEntity<>(appUser, HttpStatus.OK);
+    public ResponseEntity<AppUserResponse> getAppUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok().body(appUserService.getAppUsersById(id).get());
     }
 
 
@@ -95,42 +98,42 @@ public class AppUserController {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/register")
-//    public ResponseEntity<?> saveAppUser(@RequestBody AppUser appUser) {
-//        return appUserService.addAppUser(appUser);
-//        }
-
-//Peter:
-//    @PostMapping(value = "/appuser")
-//    public ResponseEntity<Object> addAppUser(@RequestBody AppUser appUser) {
-//        long newId = appUserService.addAppUser(appUser);
-//        return new ResponseEntity<>(newId, HttpStatus.CREATED);
-//    }
-
+    //WERKT MET APPUSERRESPONSE KUNNEN NAW GEGEVENS GEUPDATE WORDEN DOOR USER
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUser appUser) {
+    public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUserResponse appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
         }
 
+    //WERKT
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);
         }
 
-        //get reservations per id appuser
-    @GetMapping(value = "/{id}/reservations")
-    public ResponseEntity<Object> getReservations(@PathVariable("id") long id) {
-        return ResponseEntity.ok().body(reservationService.getReservationsById(id));
+// -------RESERVATION---------
+
+
+    //get reservations per id appuser
+//    @GetMapping(value = "/{id}/lessons")
+//    public ResponseEntity<Object> getLessonsByAppUser(@PathVariable("id") long id) {
+//        return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
+//    }
+
+    @GetMapping(value = "/{id}/lessons")
+    public ResponseEntity<Object> getLessonsByAppUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
     }
 
-        //get specific lesson by id appuser
+
+        //get specific reservation/lesson by id appuser MET RESERVATIONDTO
     @GetMapping(value = "/{appuser_id}/lessons/{lesson_id}")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
                                                          @PathVariable("lesson_id") long lessonId) {
-        return ResponseEntity.ok().body(reservationService.getResultById(appuserId, lessonId));
+        return ResponseEntity.ok().body(reservationService.getReservation(appuserId, lessonId));
     }
+
         //geeft een reservation ID terug
     @PostMapping(value = "/{appuser_id}/lesson/{lesson_id}")
     public ResponseEntity<Object> makeReservation(@PathVariable("appuser_id") long appuserId,

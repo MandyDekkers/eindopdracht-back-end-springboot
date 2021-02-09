@@ -29,9 +29,9 @@ INSERT INTO address (city, housenumber, postalcode, streetname, appuser_id) VALU
 -- INSERT INTO address (city, housenumber, postalcode, streetname, appuser) VALUES ('Amsterdam', '896', '5896OP', 'Waal', 4);
 
 
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (1, 1, 'testcomment');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (1, 2, 'testcomment');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (2, 1, 'testcomment');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (2, 2, 'testcomment');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (3, 1, 'testcomment');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (3, 2, 'testcomment');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (1, 1, 'test1');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (1, 2, 'test2');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (2, 1, 'test3');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (2, 2, 'test4');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (3, 1, 'test5');
+INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (3, 2, 'test6');

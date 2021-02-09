@@ -5,16 +5,24 @@ import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.model.Reservation;
 import nl.eindopdracht.bootcamp.model.ReservationKey;
+import nl.eindopdracht.bootcamp.payload.response.ReservationDTO;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.LessonRepository;
 import nl.eindopdracht.bootcamp.repository.ReservationRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     LessonRepository lessonRepository;
@@ -26,13 +34,49 @@ public class ReservationServiceImpl implements ReservationService {
     ReservationRepository reservationRepository;
 
     @Override
-    public Collection<Reservation> getReservationsById(long appUserId) {
-        return reservationRepository.findAllByAppUserId(appUserId);
+    public List<ReservationDTO> getLessonsByAppUser(long appUserID) {
+    return ((Collection<Reservation>) reservationRepository
+            .findAllByAppUserId(appUserID))
+            .stream()
+            .map(this::convertTo).collect(Collectors.toList());
     }
 
     @Override
-    public Reservation getResultById(long studentId, long courseId) {
-        return reservationRepository.findById(new ReservationKey(studentId, courseId)).orElse(null);
+    public List<ReservationDTO> getUsersByLesson(long lessonId) {
+        return ((Collection<Reservation>) reservationRepository
+                .findAllByLessonId(lessonId))
+                .stream()
+                .map(this::convertTo).collect(Collectors.toList());
+    }
+
+    private ReservationDTO convertTo(Reservation reservation) {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        ReservationDTO reservationDTO = modelMapper
+                .map(reservation, ReservationDTO.class);
+
+        return reservationDTO;
+    }
+
+    @Override
+    public ReservationDTO getReservation(long appUserID, long lessonId) {
+        if (!appUserRepository.existsById(appUserID)) { throw new RecordNotFoundException(); }
+        AppUser appUser = appUserRepository.findById(appUserID).orElse(null);
+        if (!lessonRepository.existsById(lessonId)) { throw new RecordNotFoundException(); }
+        Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+
+        Reservation reservation = reservationRepository.findById(new ReservationKey(appUserID, lessonId)).orElse(null);
+
+        ReservationDTO newdto = new ReservationDTO();
+        newdto.setFirstName(appUser.getFirstName());
+        newdto.setLastName(appUser.getLastName());
+        newdto.setName(lesson.getName());
+        newdto.setDate(lesson.getDate());
+        newdto.setMaxAmountMembers(lesson.getMaxAmountMembers());
+        newdto.setNiveau(lesson.getNiveau());
+        newdto.setComment(reservation.getComment());
+
+        return newdto;
     }
 
     @Override
@@ -62,5 +106,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(reservation);
         return id;
     }
+
 
 }

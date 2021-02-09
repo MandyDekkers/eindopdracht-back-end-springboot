@@ -14,4 +14,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Reserv
     Collection<Reservation> findAllByLessonId(long lessonId);
 
     boolean existsById(long appuserId);
+
 }

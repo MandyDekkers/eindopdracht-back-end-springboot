@@ -24,50 +24,56 @@ import java.util.List;
 @RequestMapping(value = "address")
 public class AddressController {
 
-    private AddressService addressService;
+//    private AddressService addressService;
+//
+//    @Autowired
+//    public void setAddressService(AddressService addressService) {
+//        this.addressService = addressService;
+//    }
 
-    @Autowired
-    public void setAddressService(AddressService addressService) {
-        this.addressService = addressService;
-    }
+//    @Autowired
+//    private AppUserService appUserService;
+//
+//    @Autowired
+//    public void setAppUserService(AppUserService appUserService) {
+//        this.appUserService = appUserService;
+//    }
 
-    private AppUserService appUserService;
+//WERKT, MAAR NODIG?
+//
+//    @GetMapping(value = "")
+//    public ResponseEntity<Object> getAllAddresses() {
+//        List<Address> addresses = addressService.getAllAddresses();
+//        return new ResponseEntity<>(addresses, HttpStatus.OK);
+//    }
 
-    @Autowired
-    public void setAppUserService(AppUserService appUserService) {
-        this.appUserService = appUserService;
-    }
+// WERKT, MAAR NODIG?
+//    @GetMapping(value = "/{id}")
+//    public ResponseEntity<Object> getAddress(@PathVariable("id") long id) {
+//        Address address = addressService.getAddressById(id);
+//        return new ResponseEntity<>(address, HttpStatus.OK);
+//    }
 
-    @GetMapping(value = "")
-    public ResponseEntity<Object> getAllAddresses() {
-        List<Address> addresses = addressService.getAllAddresses();
-        return new ResponseEntity<>(addresses, HttpStatus.OK);
-    }
+//NODIG? EEN ADRES WORDT VERPLICHT BIJ EEN NIEUWE USER AANGEMAAKT
+//    @PostMapping(value = "")
+//    public ResponseEntity<Object> saveAddress(@RequestBody Address address) {
+//        long newId = addressService.saveAddress(address);
+//        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+//    }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getAddress(@PathVariable("id") long id) {
-        Address address = addressService.getAddressById(id);
-        return new ResponseEntity<>(address, HttpStatus.OK);
-    }
-//WERKT NIET EN NODIG? EEN ADRES WORDT VERPLICHT BIJ EEN NIEUWE USER AANGEMAAKT
-    @PostMapping(value = "")
-    public ResponseEntity<Object> saveAddress(@RequestBody Address address) {
-        long newId = addressService.saveAddress(address);
-        return new ResponseEntity<>(newId, HttpStatus.CREATED);
-    }
+//NODIG?
+//    @PutMapping(value = "/{id}")
+//    public ResponseEntity<Object> updateAddress(@PathVariable("id") int id, @RequestBody Address address) {
+//        addressService.updateAddress(id, address);
+//        return new ResponseEntity<>("Adres is geupdated!", HttpStatus.OK);
+//    }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateAddress(@PathVariable("id") int id, @RequestBody Address address) {
-        addressService.updateAddress(id, address);
-        return new ResponseEntity<>("Adres is geupdated!", HttpStatus.OK);
-    }
-
-//WERKT NIET EN NODIG? EEN ADRES IS VERPLICHT BIJ EEN APPUSER
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteAddress(@PathVariable("id") long id) {
-        addressService.deleteAddress(id);
-        return new ResponseEntity<>("Adres is verwijderd", HttpStatus.OK);
-    }
-
+// NODIG?
+//    //WERKT NIET EN NODIG? EEN ADRES IS VERPLICHT BIJ EEN APPUSER
+//    @DeleteMapping(value = "/{id}")
+//    public ResponseEntity<Object> deleteAddress(@PathVariable("id") long id) {
+//        addressService.deleteAddress(id);
+//        return new ResponseEntity<>("Adres is verwijderd", HttpStatus.OK);
+//    }
 
 }

@@ -25,6 +25,8 @@
 
 package nl.eindopdracht.bootcamp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -43,11 +45,13 @@ import java.time.LocalDateTime;
 public class Reservation {
 
     @EmbeddedId
+//    @JsonIgnore
     private ReservationKey id;
 
     @ManyToOne
     @MapsId("appUserId")
     @JoinColumn(name = "appuser_id")
+//    @JsonIgnore
     private AppUser appUser;
 
     @ManyToOne

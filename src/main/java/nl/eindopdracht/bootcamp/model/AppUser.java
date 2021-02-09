@@ -47,12 +47,12 @@ public class AppUser {
     private String username;
 
     @NotNull
-    @Column(name = "password")
-    private String password;
-
-    @NotNull
     @Column(name = "email")
     private String email;
+
+    @NotNull
+    @Column(name = "password")
+    private String password;
 
     @NotNull
     @Column(name = "first_name")
@@ -80,18 +80,18 @@ public class AppUser {
 
     }
 
-    public AppUser(String username, String password, String email, String firstName, String lastName) {
+    public AppUser(String username, String email, String password, String firstName, String lastName) {
         this.username = username;
-        this.password = password;
         this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public AppUser(String username, String password, String email, String firstName, String lastName, Set<Role> roles, Address address) {
+    public AppUser(String username, String email, String password, String firstName, String lastName, Set<Role> roles, Address address) {
         this.username = username;
-        this.password = password;
-        this.email = email;
+        this.password = email;
+        this.email = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;

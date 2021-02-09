@@ -19,5 +19,4 @@ public class BootcampApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BootcampApplication.class, args);
 	}
-
 }
