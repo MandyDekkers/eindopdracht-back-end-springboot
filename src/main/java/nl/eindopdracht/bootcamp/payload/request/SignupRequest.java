@@ -3,34 +3,41 @@ package nl.eindopdracht.bootcamp.payload.request;
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignupRequest {
 
-    @NotBlank
-    @Size(min = 3, max = 20)
+    @NotBlank(message = "Username may not be empty")
+    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Email may not be empty")
     @Size(max = 50)
-    @Email
+    @Email(message = "Please enter a valid e-mail address")
     private String email;
 
-    @NotBlank
-    @Size(min = 6, max = 40)
+    @NotBlank(message = "Password may not be empty")
+    @Size(min = 2, max = 32, message = "Password must be between 6 and 20 characters long")
     private String password;
 
+    @NotBlank(message = "Firstname may not be empty")
     private String firstName;
 
+    @NotBlank(message = "LastName may not be empty")
     private String lastName;
 
+    @NotBlank(message = "Streetname may not be empty")
     private String streetName;
 
+    @NotBlank(message = "Housenumber may not be empty")
     private String houseNumber;
 
+    @NotBlank(message = "Postalcode may not be empty")
     private String postalCode;
 
+    @NotBlank(message = "City may not be empty")
     private String city;
 
     private Set<String> role;

@@ -3,6 +3,7 @@ package nl.eindopdracht.bootcamp.service;
 import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username)  {
-        AppUser appUser = appUserRepository.findByUsername(username)
+        AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found: " + username));
-        return UserDetailsImpl.build(appUser);
+        return UserDetailsImpl.build(user);
     }
 }

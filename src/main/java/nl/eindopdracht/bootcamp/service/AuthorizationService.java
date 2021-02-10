@@ -106,6 +106,7 @@ public class AuthorizationService {
 
             Address savedAddress = addressRepository.save(address);
             appUser.setAddress(savedAddress);
+            appUser.setPassword(encoder.encode(signUpRequest.getPassword()));
             address.setAppuser(appUser);
 
         Set<String> strRoles = signUpRequest.getRole();
