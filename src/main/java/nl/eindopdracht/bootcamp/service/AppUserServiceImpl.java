@@ -118,22 +118,25 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser getAppUserByLastName(String lastName) {
-        return appUserRepository.findByLastNameIgnoreCase(lastName);
+    public List<AppUserResponse> getAppUserByLastName(String lastName) {
+        return ((List<AppUser>) appUserRepository
+                .findByLastNameIgnoreCase(lastName))
+                .stream()
+                .map(this::convertToAppUserResponse).collect(Collectors.toList());
     }
 
-    @Override
-    public ResponseEntity<?> addAppUser(AppUser appUser) {
-        if (!appUserRepository.existsByEmail(appUser.getEmail())) {
-            AppUser savedAppUser = appUserRepository.save(appUser);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedAppUser);
-        }
-        return ResponseEntity.status(500).body("Email is not unique."); //response in controller
-    }
+//    @Override
+//    public ResponseEntity<?> addAppUser(AppUser appUser) {
+//        if (!appUserRepository.existsByEmail(appUser.getEmail())) {
+//            AppUser savedAppUser = appUserRepository.save(appUser);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(savedAppUser);
+//        }
+//        return ResponseEntity.status(500).body("Email is not unique."); //response in controller
+//    }
 }
 
 //PETER:
-    //    @Override
+//    @Override
 //    public long addAppUser(AppUser appUser) {
 //        if(!appUserRepository.existsByEmail(appUser.getEmail())) {
 //            AppUser newAppUser = appUserRepository.save(appUser);
@@ -143,7 +146,7 @@ public class AppUserServiceImpl implements AppUserService {
 //            throw new RecordNotFoundException();
 //        }
 
-    //    @Override
+//    @Override
 //    public AppUser getAppUsersById(long id) {
 //        if (appUserRepository.existsById(id)) {
 //            AppUser appuser = appUserRepository.findById(id).orElse(null);
@@ -157,4 +160,3 @@ public class AppUserServiceImpl implements AppUserService {
 //            throw new RecordNotFoundException();
 //        }
 //    }
-

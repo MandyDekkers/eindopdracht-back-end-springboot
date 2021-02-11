@@ -9,7 +9,7 @@ INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Woensdag 3 maar
 INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Donderdag 4 maart 2021, 18:00 uur', '25', 'Fitcamp','gevorderd');
 INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Vrijdag 5 maart 2021, 18:30 uur', '30', 'Fitcamp','beginner');
 
-
+INSERT INTO appuser (email, first_name, last_name, password, username) VALUES ('test@hotmail.com', 'Ben', 'Dekkers', 'password', 'bendekkers');
 INSERT INTO appuser (email, first_name, last_name, password, username) VALUES ('dekkersmandy@hotmail.com', 'Mandy', 'Dekkers', 'password', 'mandydekkers');
 INSERT INTO appuser (email, first_name, last_name, password, username) VALUES ('janklaassen@hotmail.com', 'Jan', 'Klaassen', 'pasword', 'janklaassen');
 INSERT INTO appuser (email, first_name, last_name, password, username) VALUES ('piet@hotmail.com', 'Pietje', 'Puk', 'password', 'pietjepuk');

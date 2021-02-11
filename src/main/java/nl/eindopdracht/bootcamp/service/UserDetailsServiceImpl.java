@@ -2,6 +2,7 @@ package nl.eindopdracht.bootcamp.service;
 
 import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

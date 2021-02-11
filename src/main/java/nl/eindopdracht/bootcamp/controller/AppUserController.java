@@ -84,18 +84,19 @@ public class AppUserController {
 //        return new ResponseEntity<>(appUser, HttpStatus.OK);
 //    }
 
-//WERKT, RETOURNEERT DE APPUSERRESPONSE
+    //WERKT, RETOURNEERT DE APPUSERRESPONSE
     @GetMapping(value = "/{id}")
     public ResponseEntity<AppUserResponse> getAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(appUserService.getAppUsersById(id).get());
     }
 
 
-    //LOOP, EN WAT ALS ER TWEE DEZELFDE LASTNAMES ZIJN?
+    //WERKT, ook met meerdere dezelfde lastnames
     @GetMapping(value = "/lastname/{lastName}")
-    public ResponseEntity<Object> getAppUserByLastName(@PathVariable("lastName") String lastName) {
-        AppUser appUser = appUserService.getAppUserByLastName(lastName);
-        return new ResponseEntity<>(appUser, HttpStatus.OK);
+    @ResponseBody
+    public List<AppUserResponse> getAppUserByLastName(@PathVariable("lastName") String lastName) {
+        List<AppUserResponse> appusers = appUserService.getAppUserByLastName(lastName);
+        return appusers;
     }
 
     //WERKT MET APPUSERRESPONSE KUNNEN NAW GEGEVENS GEUPDATE WORDEN DOOR USER
@@ -103,14 +104,14 @@ public class AppUserController {
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUserResponse appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
-        }
+    }
 
     //WERKT
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);
-        }
+    }
 
 // -------RESERVATION---------
 
@@ -127,18 +128,18 @@ public class AppUserController {
     }
 
 
-        //get specific reservation/lesson by id appuser MET RESERVATIONDTO
+    //get specific reservation/lesson by id appuser MET RESERVATIONDTO
     @GetMapping(value = "/{appuser_id}/lessons/{lesson_id}")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
-                                                         @PathVariable("lesson_id") long lessonId) {
+                                                 @PathVariable("lesson_id") long lessonId) {
         return ResponseEntity.ok().body(reservationService.getReservation(appuserId, lessonId));
     }
 
-        //geeft een reservation ID terug
+    //geeft een reservation ID terug
     @PostMapping(value = "/{appuser_id}/lesson/{lesson_id}")
     public ResponseEntity<Object> makeReservation(@PathVariable("appuser_id") long appuserId,
-                                                         @PathVariable("lesson_id") long lessonId,
-                                                         @RequestBody Reservation reservation) {
+                                                  @PathVariable("lesson_id") long lessonId,
+                                                  @RequestBody Reservation reservation) {
         ReservationKey newId = reservationService.addReservation(appuserId, lessonId, reservation);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
@@ -147,4 +148,3 @@ public class AppUserController {
     }
 
 }
-
