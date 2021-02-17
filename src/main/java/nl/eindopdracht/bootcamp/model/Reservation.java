@@ -27,6 +27,7 @@ package nl.eindopdracht.bootcamp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -48,13 +49,13 @@ public class Reservation {
 //    @JsonIgnore
     private ReservationKey id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("appUserId")
     @JoinColumn(name = "appuser_id")
 //    @JsonIgnore
     private AppUser appUser;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("lessonId")
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;

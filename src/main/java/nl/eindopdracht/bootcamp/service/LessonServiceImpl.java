@@ -35,7 +35,7 @@ public class LessonServiceImpl implements LessonService {
         if (lessonRepository.existsById(id)) {
             return lessonRepository.findById(id).orElse(null);
         } else {
-            throw new RecordNotFoundException();
+            return null;
         }
     }
 

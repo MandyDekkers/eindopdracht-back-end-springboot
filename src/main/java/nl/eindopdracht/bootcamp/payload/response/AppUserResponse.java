@@ -1,12 +1,10 @@
 package nl.eindopdracht.bootcamp.payload.response;
 
-import nl.eindopdracht.bootcamp.model.Address;
-
-import javax.persistence.Column;
 
 public class AppUserResponse {
 
     //AppUser
+    private long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -17,23 +15,14 @@ public class AppUserResponse {
     private String postalCode;
     private String city;
 
-    public AppUserResponse() {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.streetName = streetName;
-        this.houseNumber = houseNumber;
-        this.postalCode = postalCode;
-        this.city = city;
-    }
-
     public AppUserResponse(String email, String firstName, String lastName) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public AppUserResponse(String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city) {
+    public AppUserResponse() {
+        this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +30,25 @@ public class AppUserResponse {
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         this.city = city;
+    }
+
+    public AppUserResponse(long id, String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.streetName = streetName;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getEmail() {

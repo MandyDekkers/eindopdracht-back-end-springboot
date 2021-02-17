@@ -4,8 +4,13 @@ import nl.eindopdracht.bootcamp.exeption.DatabaseErrorException;
 import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
 import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
+import nl.eindopdracht.bootcamp.model.Lesson;
+import nl.eindopdracht.bootcamp.model.Reservation;
+import nl.eindopdracht.bootcamp.model.ReservationKey;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
+import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
+import nl.eindopdracht.bootcamp.repository.ReservationRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,14 +32,34 @@ public class AppUserServiceImpl implements AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
 //    @Autowired
 //    public void setAppUserRepository(AppUserRepository appUserRepository) {
 //        this.appUserRepository = appUserRepository;
 //    }
 
-    @Autowired
+//    @Override
+//    public ResponseEntity<?> getAllUsers() {
+//
+//        List<User> users = userRepository.findAll();
+//
+//        if(users.isEmpty()) {
+//            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+//        }
+//        return ResponseEntity.ok(users);
+//    }
+    @Override
     public List<AppUserResponse> getAllAppUsers() {
-        return ((List<AppUser>) appUserRepository
+
+        List<AppUser> users = appUserRepository.findAll();
+
+        if(users.isEmpty()) {
+            return (List<AppUserResponse>) ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+
+        }
+                return ((List<AppUser>) appUserRepository
                 .findAll())
                 .stream()
                 .map(this::convertToAppUserResponse).collect(Collectors.toList());
@@ -44,7 +70,6 @@ public class AppUserServiceImpl implements AppUserService {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
         AppUserResponse appUserResponse = modelMapper
                 .map(appUser, AppUserResponse.class);
-
 //        AppUserResponse appUserResponse = new AppUserResponse();
 //        appUserResponse.setEmail(appUser.getEmail());
 //        appUserResponse.setFirstName(appUser.getFirstName());
@@ -63,8 +88,9 @@ public class AppUserServiceImpl implements AppUserService {
     public Optional<AppUserResponse> getAppUsersById(long id) {
         if (appUserRepository.existsById(id)) {
             Optional<AppUser> appuser = this.appUserRepository.findById(id);
+            
             AppUser app = appuser.get();
-            return Optional.of(new AppUserResponse(app.getEmail(), app.getFirstName(), app.getEmail(),
+            return Optional.of(new AppUserResponse(app.getId(), app.getEmail(), app.getFirstName(), app.getLastName(),
                     app.getAddress().getStreetName(), app.getAddress().getHouseNumber(), app.getAddress().getPostalCode(),
                     app.getAddress().getCity()));
         } else {
@@ -111,7 +137,10 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void deleteAppUser(long id) {
         if (appUserRepository.existsById(id)) {
+            AppUser userToDelete = appUserRepository.findById(id).orElse(null);
+
             appUserRepository.deleteById(id);
+
         } else {
             throw new RecordNotFoundException();
         }

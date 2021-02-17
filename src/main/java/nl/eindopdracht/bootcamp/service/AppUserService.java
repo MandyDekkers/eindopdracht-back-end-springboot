@@ -13,6 +13,4 @@ public interface AppUserService {
     void updateAppUser(long id, AppUserResponse appUser);
     void deleteAppUser(long id);
     List<AppUserResponse> getAppUserByLastName(String lastName);
-
-//    ResponseEntity<?> addAppUser(AppUser appUser);
 }

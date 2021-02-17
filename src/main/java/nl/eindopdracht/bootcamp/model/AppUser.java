@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,19 +30,6 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-//    @Id
-//    @GeneratedValue(
-//            strategy= GenerationType.IDENTITY,
-//            generator="native"
-//    )
-//    @GenericGenerator(
-//            name = "native",
-//            strategy = "native"
-//    )
-//
-//    @Column(name = "id")
-//    private long id;
 
     @NotNull
     @Column(name = "username")
@@ -66,15 +54,14 @@ public class AppUser {
     @ManyToMany
     private Set<Role> roles;
 
-    @OneToOne(fetch=FetchType.LAZY,
-            mappedBy="appuser")
+    @OneToOne(fetch=FetchType.LAZY)
     private Address address;
 
-//    @OneToOne(fetch=FetchType.EAGER)
-//    private Address address;
+    @OneToOne(mappedBy = "appuser")
+    private FileDB fileDB;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     Set<Reservation> reservations;
 
     public AppUser() {
@@ -103,6 +90,19 @@ public class AppUser {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public AppUser(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public FileDB getFileDB() {
+        return fileDB;
+    }
+
+    public void setFileDB(FileDB fileDB) {
+        this.fileDB = fileDB;
     }
 
     public long getId() {

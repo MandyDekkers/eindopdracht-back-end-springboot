@@ -1,5 +1,7 @@
 package nl.eindopdracht.bootcamp.payload.response;
 
+import nl.eindopdracht.bootcamp.model.ReservationKey;
+
 import javax.persistence.Column;
 
 public class ReservationDTO {

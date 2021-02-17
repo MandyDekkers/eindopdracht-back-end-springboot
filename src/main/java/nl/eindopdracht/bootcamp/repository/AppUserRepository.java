@@ -1,6 +1,7 @@
 package nl.eindopdracht.bootcamp.repository;
 
 import nl.eindopdracht.bootcamp.model.AppUser;
+import nl.eindopdracht.bootcamp.model.Reservation;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
         boolean existsByEmail(String email);
         Optional<AppUser> findByUsername(String username);
         Boolean existsByUsername(String username);
+
 
 }

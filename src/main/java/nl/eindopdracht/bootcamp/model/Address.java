@@ -42,7 +42,8 @@ public class Address {
     @JsonIgnore
     @OneToOne(fetch=FetchType.LAZY,
             cascade = CascadeType.ALL,
-            orphanRemoval  = true)
+            orphanRemoval  = true,
+        mappedBy = "address")
     @JoinColumn(name="appuser_id")
     private AppUser appuser;
 
@@ -56,6 +57,7 @@ public class Address {
         this.postalCode = postalCode;
         this.city = city;
     }
+
 
     public long getId() {
         return id;

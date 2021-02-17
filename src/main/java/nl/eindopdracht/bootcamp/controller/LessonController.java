@@ -10,6 +10,7 @@ import nl.eindopdracht.bootcamp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +53,8 @@ public class LessonController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> getLessons(){
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+        public ResponseEntity<Object> getLessons(){
         List<Lesson> lessons = lessonService.getAllLessons();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
     }
@@ -64,18 +66,21 @@ public class LessonController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> saveLesson(@RequestBody Lesson lesson) {
         long newId = lessonService.saveLesson(lesson);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> updateLesson(@PathVariable("id") int id, @RequestBody Lesson lesson) {
         lessonService.updateLesson(id, lesson);
         return new ResponseEntity<>("Les is geupdated!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteLesson(@PathVariable("id") long id) {
         lessonService.deleteLesson(id);
         return new ResponseEntity<>("Les is verwijderd", HttpStatus.OK);
@@ -85,6 +90,7 @@ public class LessonController {
 
     //get reservations per id lesson
     @GetMapping(value = "/{id}/appusers")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> getUsersByLesson(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getUsersByLesson(id));
     }
@@ -97,7 +103,7 @@ public class LessonController {
 //        return ResponseEntity.ok().body(reservationService.getReservationById(appuserId, lessonId));
 //    }
 //
-//    //geeft een locatie terug http.... en voegt reservation toe
+    //geeft een locatie terug http.... en voegt reservation toe
 //    @PostMapping(value = "/{lesson_id}/appusers/{appuser_id}")
 //    public ResponseEntity<Object> addMemberToLesson(@PathVariable("lesson_id") long lessonId,
 //                                                         @PathVariable("appuser_id") long appuserId,

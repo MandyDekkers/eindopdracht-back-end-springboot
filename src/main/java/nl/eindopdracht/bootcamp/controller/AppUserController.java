@@ -12,6 +12,7 @@ import nl.eindopdracht.bootcamp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -71,6 +71,7 @@ public class AppUserController {
 
     //WERKT! RETOURNEERT DE APPUSERRESPONSE
     @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAllAppUsers() {
         List <AppUserResponse> appUserResponses = appUserService.getAllAppUsers();
@@ -86,6 +87,7 @@ public class AppUserController {
 
     //WERKT, RETOURNEERT DE APPUSERRESPONSE
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<AppUserResponse> getAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(appUserService.getAppUsersById(id).get());
     }
@@ -93,6 +95,7 @@ public class AppUserController {
 
     //WERKT, ook met meerdere dezelfde lastnames
     @GetMapping(value = "/lastname/{lastName}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAppUserByLastName(@PathVariable("lastName") String lastName) {
         List<AppUserResponse> appusers = appUserService.getAppUserByLastName(lastName);
@@ -101,6 +104,7 @@ public class AppUserController {
 
     //WERKT MET APPUSERRESPONSE KUNNEN NAW GEGEVENS GEUPDATE WORDEN DOOR USER
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUserResponse appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
@@ -108,6 +112,7 @@ public class AppUserController {
 
     //WERKT
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);
@@ -122,7 +127,9 @@ public class AppUserController {
 //        return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
 //    }
 
+
     @GetMapping(value = "/{id}/lessons")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getLessonsByAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
     }
@@ -130,6 +137,7 @@ public class AppUserController {
 
     //get specific reservation/lesson by id appuser MET RESERVATIONDTO
     @GetMapping(value = "/{appuser_id}/lessons/{lesson_id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
                                                  @PathVariable("lesson_id") long lessonId) {
         return ResponseEntity.ok().body(reservationService.getReservation(appuserId, lessonId));
@@ -137,6 +145,7 @@ public class AppUserController {
 
     //geeft een reservation ID terug
     @PostMapping(value = "/{appuser_id}/lesson/{lesson_id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> makeReservation(@PathVariable("appuser_id") long appuserId,
                                                   @PathVariable("lesson_id") long lessonId,
                                                   @RequestBody Reservation reservation) {
@@ -144,7 +153,18 @@ public class AppUserController {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 
-        return ResponseEntity.created(location).body(location);
+        return new ResponseEntity<>("Les is reserved!", HttpStatus.OK);
+    }
+
+    //
+    @DeleteMapping(value = "/{appuser_id}/lesson/{lesson_id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> deleteReservation(@PathVariable("appuser_id") long appuserId,
+                                                  @PathVariable("lesson_id") long lessonId)
+                                                     {
+        reservationService.deleteReservation(appuserId, lessonId);
+
+        return new ResponseEntity<>("Reservering is verwijderd!", HttpStatus.OK);
     }
 
 }

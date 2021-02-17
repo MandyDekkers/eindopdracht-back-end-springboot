@@ -80,6 +80,23 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public void deleteReservation(long appuserId, long lessonId) {
+        if (!appUserRepository.existsById(appuserId)) { throw new RecordNotFoundException(); }
+        if (!lessonRepository.existsById(lessonId)) { throw new RecordNotFoundException(); }
+
+        Reservation reservation = reservationRepository.findById(new ReservationKey(appuserId, lessonId)).orElse(null);
+
+        reservation.setLesson(null);
+        reservation.setAppUser(null);
+        reservation.setComment(null);
+        reservation.setId(null);
+
+        reservationRepository.save(reservation);
+
+    }
+
+
+    @Override
     public ReservationKey addReservation(long appuserId, long lessonId, Reservation reservation) {
         if (!appUserRepository.existsById(appuserId)) { throw new RecordNotFoundException(); }
         AppUser appUser = appUserRepository.findById(appuserId).orElse(null);
@@ -106,6 +123,5 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(reservation);
         return id;
     }
-
 
 }

@@ -2,6 +2,7 @@ package nl.eindopdracht.bootcamp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,9 +35,13 @@ public class Lesson {
     @Column(name = "niveau")
     private String niveau;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     @JsonIgnore
     Set<Reservation> reservations;
+
+    public Lesson() {
+
+    }
 
     public long getId() {
         return id;

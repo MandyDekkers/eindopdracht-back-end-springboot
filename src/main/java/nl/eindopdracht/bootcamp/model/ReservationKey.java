@@ -14,7 +14,6 @@ public class ReservationKey implements Serializable {
     @Column(name = "lesson_id")
     private Long lessonId;
 
-    // constructor(s)
     public ReservationKey() {}
     public ReservationKey(long appUserId, long lessonId) {
         this.appUserId = appUserId;
@@ -37,7 +36,6 @@ public class ReservationKey implements Serializable {
         this.lessonId = lessonId;
     }
 
-    // equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,7 +45,6 @@ public class ReservationKey implements Serializable {
                 lessonId.equals(that.lessonId);
     }
 
-    // hashcode
     @Override
     public int hashCode() {
         return Objects.hash(appUserId, lessonId);
