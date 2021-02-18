@@ -1,12 +1,12 @@
 package nl.eindopdracht.bootcamp.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import nl.eindopdracht.bootcamp.exeption.DatabaseErrorException;
 import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
 import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
-import nl.eindopdracht.bootcamp.model.Lesson;
-import nl.eindopdracht.bootcamp.model.Reservation;
-import nl.eindopdracht.bootcamp.model.ReservationKey;
+import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
@@ -14,13 +14,14 @@ import nl.eindopdracht.bootcamp.repository.ReservationRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.DatatypeConverter;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,84 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Value("${novi.sec.jwtSecret}")
+    private String jwtSecret;
+
+    private static final String PREFIX = "Bearer ";
+
+    private PasswordEncoder encoder;
+
+
+    @Override
+    public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
+        if(token == null || token.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
+        }
+        String username =  getUsernameFromToken(token);
+
+        if(userExists(username) && updateRequestIsValid(userRequest)) {
+            AppUser updatedUser = findUserByUsername(username);
+            if(!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
+                updatedUser.setPassword(encoder.encode(userRequest.getPassword()));
+            }
+            if(userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
+                updatedUser.setEmail(userRequest.getEmail());
+            }
+            return ResponseEntity.ok().body(appUserRepository.save(updatedUser));
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
+    }
+
+    @Override
+    public ResponseEntity<?> findUserByToken(String token) {
+        String username = getUsernameFromToken(token);
+
+        if(userExists(username)) {
+            return ResponseEntity.ok(findUserByUsername(username));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+    }
+
+    private String getUsernameFromToken(String token) {
+        String tokenWithoutBearer = removePrefix(token);
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+                .parseClaimsJws(tokenWithoutBearer).getBody();
+
+        return claims.getSubject();
+    }
+
+    private String removePrefix(String token) {
+        return token.replace(PREFIX, "");
+    }
+
+    private boolean userExists(String username) {
+        return appUserRepository.existsByUsername(username);
+    }
+
+    private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
+        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
+            return true;
+        }
+        return false;
+    }
+
+    private AppUser findUserByUsername(String username) {
+        return appUserRepository.findByUsername(username).get();
+    }
+
+    @Autowired
+    public void setUserRepository(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
 //    @Autowired
 //    public void setAppUserRepository(AppUserRepository appUserRepository) {
@@ -88,7 +167,7 @@ public class AppUserServiceImpl implements AppUserService {
     public Optional<AppUserResponse> getAppUsersById(long id) {
         if (appUserRepository.existsById(id)) {
             Optional<AppUser> appuser = this.appUserRepository.findById(id);
-            
+
             AppUser app = appuser.get();
             return Optional.of(new AppUserResponse(app.getId(), app.getEmail(), app.getFirstName(), app.getLastName(),
                     app.getAddress().getStreetName(), app.getAddress().getHouseNumber(), app.getAddress().getPostalCode(),
@@ -137,8 +216,6 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void deleteAppUser(long id) {
         if (appUserRepository.existsById(id)) {
-            AppUser userToDelete = appUserRepository.findById(id).orElse(null);
-
             appUserRepository.deleteById(id);
 
         } else {

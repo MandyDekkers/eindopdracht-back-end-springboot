@@ -49,13 +49,12 @@ public class Reservation {
 //    @JsonIgnore
     private ReservationKey id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("appUserId")
     @JoinColumn(name = "appuser_id")
-//    @JsonIgnore
     private AppUser appUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("lessonId")
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;

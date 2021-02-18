@@ -42,7 +42,6 @@ public class AuthorizationService {
     private AuthenticationManager authenticationManager;
     private JwtUtils jwtUtils;
 
-
     AddressRepository addressRepository;
 
     @Autowired

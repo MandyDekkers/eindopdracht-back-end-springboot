@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "file")
 public class FileController {
 
@@ -32,7 +33,7 @@ public class FileController {
 
     //WERKT
     @PostMapping("/upload/{id}")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<MessageResponse> uploadFile(@PathVariable long id, @RequestParam("file") MultipartFile file) {
         String message = "";
         try {

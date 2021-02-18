@@ -30,7 +30,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "appuser")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 public class AppUserController {
 
@@ -71,7 +71,7 @@ public class AppUserController {
 
     //WERKT! RETOURNEERT DE APPUSERRESPONSE
     @GetMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAllAppUsers() {
         List <AppUserResponse> appUserResponses = appUserService.getAllAppUsers();
@@ -87,7 +87,7 @@ public class AppUserController {
 
     //WERKT, RETOURNEERT DE APPUSERRESPONSE
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<AppUserResponse> getAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(appUserService.getAppUsersById(id).get());
     }
@@ -95,7 +95,7 @@ public class AppUserController {
 
     //WERKT, ook met meerdere dezelfde lastnames
     @GetMapping(value = "/lastname/{lastName}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAppUserByLastName(@PathVariable("lastName") String lastName) {
         List<AppUserResponse> appusers = appUserService.getAppUserByLastName(lastName);
@@ -104,7 +104,7 @@ public class AppUserController {
 
     //WERKT MET APPUSERRESPONSE KUNNEN NAW GEGEVENS GEUPDATE WORDEN DOOR USER
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUserResponse appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
@@ -112,7 +112,7 @@ public class AppUserController {
 
     //WERKT
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);
@@ -129,7 +129,7 @@ public class AppUserController {
 
 
     @GetMapping(value = "/{id}/lessons")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getLessonsByAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
     }
@@ -137,7 +137,7 @@ public class AppUserController {
 
     //get specific reservation/lesson by id appuser MET RESERVATIONDTO
     @GetMapping(value = "/{appuser_id}/lessons/{lesson_id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
                                                  @PathVariable("lesson_id") long lessonId) {
         return ResponseEntity.ok().body(reservationService.getReservation(appuserId, lessonId));
@@ -145,7 +145,7 @@ public class AppUserController {
 
     //geeft een reservation ID terug
     @PostMapping(value = "/{appuser_id}/lesson/{lesson_id}")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> makeReservation(@PathVariable("appuser_id") long appuserId,
                                                   @PathVariable("lesson_id") long lessonId,
                                                   @RequestBody Reservation reservation) {
@@ -158,8 +158,9 @@ public class AppUserController {
 
     //
     @DeleteMapping(value = "/{appuser_id}/lesson/{lesson_id}")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> deleteReservation(@PathVariable("appuser_id") long appuserId,
+
                                                   @PathVariable("lesson_id") long lessonId)
                                                      {
         reservationService.deleteReservation(appuserId, lessonId);

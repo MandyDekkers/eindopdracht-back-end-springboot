@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "lesson")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class LessonController {
 
     private LessonService lessonService;
@@ -53,7 +53,7 @@ public class LessonController {
     }
 
     @GetMapping(value = "")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
         public ResponseEntity<Object> getLessons(){
         List<Lesson> lessons = lessonService.getAllLessons();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
@@ -66,21 +66,21 @@ public class LessonController {
     }
 
     @PostMapping(value = "")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> saveLesson(@RequestBody Lesson lesson) {
         long newId = lessonService.saveLesson(lesson);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> updateLesson(@PathVariable("id") int id, @RequestBody Lesson lesson) {
         lessonService.updateLesson(id, lesson);
         return new ResponseEntity<>("Les is geupdated!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteLesson(@PathVariable("id") long id) {
         lessonService.deleteLesson(id);
         return new ResponseEntity<>("Les is verwijderd", HttpStatus.OK);
@@ -90,7 +90,7 @@ public class LessonController {
 
     //get reservations per id lesson
     @GetMapping(value = "/{id}/appusers")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> getUsersByLesson(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getUsersByLesson(id));
     }

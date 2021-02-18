@@ -3,7 +3,7 @@ package nl.eindopdracht.bootcamp.payload.request;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-public class UpdateAppUserRequest {
+public class UpdateUserRequest {
 
     @Size(max = 50)
     @Email

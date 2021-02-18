@@ -57,11 +57,11 @@ public class AppUser {
     @OneToOne(fetch=FetchType.LAZY)
     private Address address;
 
-    @OneToOne(mappedBy = "appuser")
+    @OneToOne(mappedBy = "appuser", fetch = FetchType.LAZY)
     private FileDB fileDB;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @JsonIgnore
     Set<Reservation> reservations;
 
     public AppUser() {

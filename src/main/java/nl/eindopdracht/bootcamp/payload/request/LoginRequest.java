@@ -1,7 +1,7 @@
 package nl.eindopdracht.bootcamp.payload.request;
 
 public class LoginRequest {
-
+//VALIDATIE TOEVOEGEN
     private String username;
     private String password;
 

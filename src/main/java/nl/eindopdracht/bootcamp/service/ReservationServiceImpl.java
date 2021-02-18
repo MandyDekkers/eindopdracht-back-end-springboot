@@ -91,7 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setComment(null);
         reservation.setId(null);
 
-        reservationRepository.save(reservation);
+        reservationRepository.deleteById(reservation);
 
     }
 

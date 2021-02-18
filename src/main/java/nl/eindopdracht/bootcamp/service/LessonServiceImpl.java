@@ -51,6 +51,8 @@ public class LessonServiceImpl implements LessonService {
             try {
                 Lesson existingLesson = lessonRepository.findById(id).orElse(null);
                 existingLesson.setName(lesson.getName());
+                existingLesson.setDate(lesson.getDate());
+                existingLesson.setMaxAmountMembers(lesson.getMaxAmountMembers());
                 existingLesson.setNiveau(lesson.getNiveau());
                 lessonRepository.save(existingLesson);
             }

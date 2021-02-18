@@ -2,9 +2,10 @@ package nl.eindopdracht.bootcamp.controller;
 
 import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
-import nl.eindopdracht.bootcamp.payload.request.UpdateAppUserRequest;
+import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
 import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
+import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class AuthController {
     @Autowired
     AuthorizationService authorizationService;
 
+    @Autowired
+    AppUserService appUserService;
+
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authorizationService.authenticateUser(loginRequest);
@@ -37,17 +41,18 @@ public class AuthController {
         return authorizationService.registerUser(signUpRequest);
     }
 
-//    @PostMapping("/update")
-////    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
-//                                        @RequestBody UpdateAppUserRequest updateRequest) {
-//        return authorizationService.updateAppUserById(headers.get("authorization"), updateRequest);
-//    }
-//
-//    @GetMapping("")
-////    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
-//        return authorizationService.findAppUserByToken(headers.get("authorization"));
-//    }
+    @PostMapping("/update")
+//    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
+                                        @RequestBody UpdateUserRequest updateRequest) {
+        return appUserService.updateUserById(headers.get("authorization"), updateRequest);
+    }
+
+    @GetMapping("/" +
+            "user")
+//    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
+        return appUserService.findUserByToken(headers.get("authorization"));
+    }
 
 }
