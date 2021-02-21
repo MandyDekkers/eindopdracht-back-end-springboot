@@ -46,17 +46,17 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
-        if(token == null || token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
         }
-        String username =  getUsernameFromToken(token);
+        String username = getUsernameFromToken(token);
 
-        if(userExists(username) && updateRequestIsValid(userRequest)) {
+        if (userExists(username) && updateRequestIsValid(userRequest)) {
             AppUser updatedUser = findUserByUsername(username);
-            if(!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
+            if (!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
                 updatedUser.setPassword(encoder.encode(userRequest.getPassword()));
             }
-            if(userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
+            if (userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
                 updatedUser.setEmail(userRequest.getEmail());
             }
             return ResponseEntity.ok().body(appUserRepository.save(updatedUser));
@@ -69,10 +69,16 @@ public class AppUserServiceImpl implements AppUserService {
     public ResponseEntity<?> findUserByToken(String token) {
         String username = getUsernameFromToken(token);
 
-        if(userExists(username)) {
+        if (userExists(username)) {
             return ResponseEntity.ok(findUserByUsername(username));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+    }
+
+    @Override
+    public long saveAppUser(AppUser appUser) {
+        AppUser newAppUser = appUserRepository.save(appUser);
+        return newAppUser.getId();
     }
 
     private String getUsernameFromToken(String token) {
@@ -94,7 +100,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     private boolean updateRequestIsValid(UpdateUserRequest updateUserRequest) {
-        if(updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
+        if (updateUserRequest.getPassword().equals(updateUserRequest.getRepeatedPassword())) {
             return true;
         }
         return false;
@@ -119,7 +125,7 @@ public class AppUserServiceImpl implements AppUserService {
 //        this.appUserRepository = appUserRepository;
 //    }
 
-//    @Override
+    //    @Override
 //    public ResponseEntity<?> getAllUsers() {
 //
 //        List<User> users = userRepository.findAll();
@@ -134,11 +140,11 @@ public class AppUserServiceImpl implements AppUserService {
 
         List<AppUser> users = appUserRepository.findAll();
 
-        if(users.isEmpty()) {
+        if (users.isEmpty()) {
             return (List<AppUserResponse>) ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
 
         }
-                return ((List<AppUser>) appUserRepository
+        return ((List<AppUser>) appUserRepository
                 .findAll())
                 .stream()
                 .map(this::convertToAppUserResponse).collect(Collectors.toList());
@@ -225,12 +231,38 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public List<AppUserResponse> getAppUserByLastName(String lastName) {
-        return ((List<AppUser>) appUserRepository
-                .findByLastNameIgnoreCase(lastName))
-                .stream()
-                .map(this::convertToAppUserResponse).collect(Collectors.toList());
-    }
+        try {
+            return ((List<AppUser>) appUserRepository
+                    .findByLastNameIgnoreCase(lastName))
+                    .stream()
+                    .map(this::convertToAppUserResponse).collect(Collectors.toList());
+        } catch (Exception ex) {
+            throw new RecordNotFoundException();
+        }
 
+    }
+}
+
+
+//    @Override
+//    public Client getClientByLastName(String lastName) {
+//        try {
+//            return clientRepository.findByLastNameIgnoreCase(lastName);
+//        }
+//        catch (Exception ex ) {
+//            throw new RecordNotFoundException();
+//        }
+//    }
+//
+//    public Client getClientByLastName2(String lastName) {
+//        Client client = clientRepository.findByLastNameIgnoreCase(lastName);
+//        if (client == null) {
+//            throw new RecordNotFoundException();
+//        }
+//        else {
+//            return client;
+//        }
+//    }
 //    @Override
 //    public ResponseEntity<?> addAppUser(AppUser appUser) {
 //        if (!appUserRepository.existsByEmail(appUser.getEmail())) {
@@ -239,7 +271,7 @@ public class AppUserServiceImpl implements AppUserService {
 //        }
 //        return ResponseEntity.status(500).body("Email is not unique."); //response in controller
 //    }
-}
+
 
 //PETER:
 //    @Override

@@ -42,15 +42,4 @@ public class AppUserServiceTest {
         appUser.setEmail("email@email.com");
     }
 
-    @Test
-    void testUpdateUser() {
-
-        when(appUserRepository.existsById((long) 1))
-                .thenReturn(true);
-
-        when(appUserRepository.findById((long) 1))
-                .thenReturn(Optional.of(appUser));
-
-        assertEquals(appUserService.getAppUsersById(1).get().getId(), appUser.getId());
-    }
 }

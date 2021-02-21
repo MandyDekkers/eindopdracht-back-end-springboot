@@ -51,6 +51,9 @@ public class AppUser {
     @Column(name = "last_name")
     private String lastName;
 
+//    @OneToOne(fetch = FetchType.LAZY)
+//    private Role rol;
+
     @ManyToMany
     private Set<Role> roles;
 

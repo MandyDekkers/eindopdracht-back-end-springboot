@@ -1,6 +1,11 @@
 package nl.eindopdracht.bootcamp;
 
+import nl.eindopdracht.bootcamp.model.Address;
+import nl.eindopdracht.bootcamp.model.AppUser;
+import nl.eindopdracht.bootcamp.model.ERole;
+import nl.eindopdracht.bootcamp.model.Role;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
+import nl.eindopdracht.bootcamp.repository.RoleRepository;
 import nl.eindopdracht.bootcamp.service.AddressService;
 import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.AuthorizationService;
@@ -22,24 +27,45 @@ public class DatabaseFiller implements CommandLineRunner {
         this.authorizationService = authorizationService;
     }
 
+    @Autowired
+    AppUserService appUserService;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    AddressService addressService;
+
+
     @Override
     public void run(String... args) {
 
-        Set<String> rollen = new HashSet<>();
-        rollen.add("admin");
+        AppUser admin = new AppUser();
 
-        SignupRequest admin = new SignupRequest();
+        Set<Role> roles = new HashSet<>();
+        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).get();
+        roles.add(adminRole);
+
+        admin.setRoles(roles);
         admin.setUsername("nick");
         admin.setEmail("nick@admin.nl");
         admin.setPassword("nicknick");
         admin.setFirstName("Nick");
         admin.setLastName("Stuivenberg");
-        admin.setStreetName("Straatnaam");
-        admin.setHouseNumber("10");
-        admin.setPostalCode("1234AB");
-        admin.setCity("Utrecht");
-        admin.setRole(rollen);
-        authorizationService.registerUser(admin);
+
+        Address adminaddress = new Address();
+        adminaddress.setStreetName("Straatnaam");
+        adminaddress.setHouseNumber("10");
+        adminaddress.setPostalCode("5555HT");
+        adminaddress.setCity("Utrecht");
+        addressService.saveAddress(adminaddress);
+        admin.setAddress(adminaddress);
+
+        appUserService.saveAppUser(admin);
+
+
+        Set<String> rollen = new HashSet<>();
+        rollen.add("user");
 
         SignupRequest user = new SignupRequest();
         user.setUsername("sjaak");
@@ -51,7 +77,6 @@ public class DatabaseFiller implements CommandLineRunner {
         user.setHouseNumber("25");
         user.setPostalCode("5678CD");
         user.setCity("Amsterdam");
-        rollen.remove("admin");
         rollen.add("user");
         user.setRole(rollen);
         authorizationService.registerUser(user);

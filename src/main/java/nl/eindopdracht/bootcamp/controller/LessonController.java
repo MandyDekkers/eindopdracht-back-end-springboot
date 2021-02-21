@@ -69,7 +69,7 @@ public class LessonController {
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> saveLesson(@RequestBody Lesson lesson) {
         long newId = lessonService.saveLesson(lesson);
-        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+        return new ResponseEntity<>("Nieuwe les is aangemaakt!", HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")

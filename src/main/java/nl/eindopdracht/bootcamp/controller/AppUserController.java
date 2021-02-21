@@ -63,6 +63,12 @@ public class AppUserController {
         this.lessonService = lessonService;
     }
 
+    @PostMapping(value = "/clients")
+    public ResponseEntity<Object> saveClient(@RequestBody AppUser appUser) {
+        long newId = appUserService.saveAppUser(appUser);
+        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+    }
+
 //    @GetMapping(value = "")
 //    public ResponseEntity<Object> getAllAppUsers(){
 //        List<AppUser> appUsers = appUserService.getAllAppUsers();
@@ -136,7 +142,7 @@ public class AppUserController {
 
 
     //get specific reservation/lesson by id appuser MET RESERVATIONDTO
-    @GetMapping(value = "/{appuser_id}/lessons/{lesson_id}")
+    @GetMapping(value = "/{appuser_id}/lesson/{lesson_id}")
 //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
                                                  @PathVariable("lesson_id") long lessonId) {

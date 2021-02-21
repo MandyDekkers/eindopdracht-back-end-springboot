@@ -1,6 +1,8 @@
 INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
+-- INSERT INTO appuser_roles (app_user_id,roles_id) VALUES(4,2)
+
 -- INSERT INTO appuser_roles(app_user_id,roles_id) VALUES(1,1),(2,1),(3,1),(4,1);
 
 INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Maandag 1 maart 2021, 20:00 uur', '5', 'Fitcamp','gevorderd');

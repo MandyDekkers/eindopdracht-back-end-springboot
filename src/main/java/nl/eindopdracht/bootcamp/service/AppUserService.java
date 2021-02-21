@@ -1,5 +1,6 @@
 package nl.eindopdracht.bootcamp.service;
 
+import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import org.springframework.http.ResponseEntity;
@@ -23,4 +24,6 @@ public interface AppUserService {
 
     ResponseEntity<?> updateUserById(String token, @Valid UpdateUserRequest appUserRequest);
     ResponseEntity<?> findUserByToken(String token);
+
+    long saveAppUser(AppUser appUser);
 }

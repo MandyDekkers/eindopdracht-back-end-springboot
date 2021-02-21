@@ -8,6 +8,7 @@ import nl.eindopdracht.bootcamp.model.Reservation;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,11 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<Lesson> getAllLessons() {
-        return lessonRepository.findAll();
+        List<Lesson> lessons = lessonRepository.findAll();
+        if (!lessons.isEmpty()) {
+            return lessonRepository.findAll();
+        }
+        throw new RecordNotFoundException();
     }
 
     @Override
