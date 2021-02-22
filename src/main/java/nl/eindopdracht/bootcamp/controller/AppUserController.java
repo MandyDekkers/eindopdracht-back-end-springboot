@@ -27,6 +27,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "appuser")
@@ -63,8 +64,20 @@ public class AppUserController {
         this.lessonService = lessonService;
     }
 
-    @PostMapping(value = "/clients")
-    public ResponseEntity<Object> saveClient(@RequestBody AppUser appUser) {
+    @PostMapping(value = "/image")
+    public ResponseEntity<Object> saveImage(@RequestBody AppUser appUser) {
+        long newId = appUserService.saveImage(appUser);
+        return new ResponseEntity<>(newId, HttpStatus.CREATED);
+    }
+
+//    @GetMapping(value = "/image/{id}")
+//    public ResponseEntity<Object> getImageById(@PathVariable ("id") long id) {
+//        AppUser appUser = appUserService.getImageById(id);
+//        return new ResponseEntity<>(appUser, HttpStatus.OK);
+//    }
+
+    @PostMapping(value = "/appuser")
+    public ResponseEntity<Object> saveAPPUser(@RequestBody AppUser appUser) {
         long newId = appUserService.saveAppUser(appUser);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }

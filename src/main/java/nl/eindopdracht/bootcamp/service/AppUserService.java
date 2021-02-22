@@ -26,4 +26,8 @@ public interface AppUserService {
     ResponseEntity<?> findUserByToken(String token);
 
     long saveAppUser(AppUser appUser);
+
+    long saveImage(AppUser appUser);
+
+    AppUser getImageById(long id);
 }

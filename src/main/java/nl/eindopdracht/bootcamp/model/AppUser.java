@@ -51,6 +51,9 @@ public class AppUser {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column ( length= 2000000)
+    private String image;
+
 //    @OneToOne(fetch = FetchType.LAZY)
 //    private Role rol;
 
@@ -60,8 +63,8 @@ public class AppUser {
     @OneToOne(fetch=FetchType.LAZY)
     private Address address;
 
-    @OneToOne(mappedBy = "appuser", fetch = FetchType.LAZY)
-    private FileDB fileDB;
+//    @OneToOne(mappedBy = "appuser", fetch = FetchType.LAZY)
+//    private FileDB fileDB;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -100,13 +103,21 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public FileDB getFileDB() {
-        return fileDB;
+    public String getImage() {
+        return image;
     }
 
-    public void setFileDB(FileDB fileDB) {
-        this.fileDB = fileDB;
+    public void setImage(String image) {
+        this.image = image;
     }
+
+//    public FileDB getFileDB() {
+//        return fileDB;
+//    }
+//
+//    public void setFileDB(FileDB fileDB) {
+//        this.fileDB = fileDB;
+//    }
 
     public long getId() {
         return id;

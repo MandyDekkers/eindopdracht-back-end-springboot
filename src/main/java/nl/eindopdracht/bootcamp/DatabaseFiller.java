@@ -11,6 +11,7 @@ import nl.eindopdracht.bootcamp.service.AppUserService;
 import nl.eindopdracht.bootcamp.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -21,6 +22,7 @@ import java.util.Set;
 public class DatabaseFiller implements CommandLineRunner {
 
     private final AuthorizationService authorizationService;
+    private PasswordEncoder encoder;
 
     @Autowired
     public DatabaseFiller(AuthorizationService authorizationService) {
@@ -36,6 +38,10 @@ public class DatabaseFiller implements CommandLineRunner {
     @Autowired
     AddressService addressService;
 
+    @Autowired
+    public void setEncoder(PasswordEncoder passwordEncoder) {
+        this.encoder = passwordEncoder;
+    }
 
     @Override
     public void run(String... args) {
@@ -58,6 +64,9 @@ public class DatabaseFiller implements CommandLineRunner {
         adminaddress.setHouseNumber("10");
         adminaddress.setPostalCode("5555HT");
         adminaddress.setCity("Utrecht");
+
+        admin.setPassword(encoder.encode(admin.getPassword()));
+
         addressService.saveAddress(adminaddress);
         admin.setAddress(adminaddress);
 
@@ -80,7 +89,6 @@ public class DatabaseFiller implements CommandLineRunner {
         rollen.add("user");
         user.setRole(rollen);
         authorizationService.registerUser(user);
-
     }
 }
 

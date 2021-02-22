@@ -8,6 +8,7 @@ public class AppUserResponse {
     private String email;
     private String firstName;
     private String lastName;
+    private String image;
 
     //Address
     private String streetName;
@@ -30,9 +31,10 @@ public class AppUserResponse {
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         this.city = city;
+        this.image = image;
     }
 
-    public AppUserResponse(long id, String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city) {
+    public AppUserResponse(long id, String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city, String image) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -41,6 +43,7 @@ public class AppUserResponse {
         this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         this.city = city;
+        this.image = image;
     }
 
     public long getId() {
@@ -105,5 +108,13 @@ public class AppUserResponse {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 public class SignupRequest {
 
     @NotBlank(message = "Username may not be empty")
-    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
+    @Size(min = 3, max = 20, message = "Name must be between 2 and 20 characters long")
     private String username;
 
     @NotBlank(message = "Email may not be empty")
@@ -17,7 +17,7 @@ public class SignupRequest {
     private String email;
 
     @NotBlank(message = "Password may not be empty")
-    @Size(min = 2, max = 32, message = "Password must be between 6 and 20 characters long")
+    @Size(min = 3, max = 32, message = "Password must be between 6 and 20 characters long")
     private String password;
 
     @NotBlank(message = "Firstname may not be empty")

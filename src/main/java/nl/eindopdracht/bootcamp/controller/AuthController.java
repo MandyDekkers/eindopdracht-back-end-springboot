@@ -48,8 +48,7 @@ public class AuthController {
         return appUserService.updateUserById(headers.get("authorization"), updateRequest);
     }
 
-    @GetMapping("/" +
-            "user")
+    @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
         return appUserService.findUserByToken(headers.get("authorization"));

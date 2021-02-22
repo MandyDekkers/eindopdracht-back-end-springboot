@@ -43,6 +43,25 @@ public class AppUserServiceImpl implements AppUserService {
 
     private PasswordEncoder encoder;
 
+    @Override
+    public long saveImage(AppUser appUser) {
+
+        Optional<AppUser> appUserOptional =  appUserRepository.findByUsername(appUser.getUsername());
+
+        if(appUserOptional.isPresent() && !appUser.getImage().equals("")) {
+            AppUser foundUser = appUserOptional.get();
+
+            foundUser.setImage(appUser.getImage());
+            return appUserRepository.save(foundUser).getId();
+        }
+
+        throw new RuntimeException("User or image not found");
+    }
+
+    @Override
+    public AppUser getImageById(long id) {
+        return appUserRepository.findById(id).orElse(null);
+    }
 
     @Override
     public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
@@ -177,7 +196,7 @@ public class AppUserServiceImpl implements AppUserService {
             AppUser app = appuser.get();
             return Optional.of(new AppUserResponse(app.getId(), app.getEmail(), app.getFirstName(), app.getLastName(),
                     app.getAddress().getStreetName(), app.getAddress().getHouseNumber(), app.getAddress().getPostalCode(),
-                    app.getAddress().getCity()));
+                    app.getAddress().getCity(), app.getImage()));
         } else {
             throw new RecordNotFoundException();
         }
