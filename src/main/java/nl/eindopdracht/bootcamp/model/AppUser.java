@@ -191,4 +191,19 @@ public class AppUser {
         this.reservations = reservations;
     }
 
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", image='" + image + '\'' +
+                ", roles=" + roles +
+                ", address=" + address +
+                ", reservations=" + reservations +
+                '}';
+    }
 }

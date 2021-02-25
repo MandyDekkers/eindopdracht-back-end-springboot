@@ -53,7 +53,7 @@ public class LessonController {
     }
 
     @GetMapping(value = "")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
         public ResponseEntity<Object> getLessons(){
         List<Lesson> lessons = lessonService.getAllLessons();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
@@ -66,7 +66,7 @@ public class LessonController {
     }
 
     @PostMapping(value = "")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> saveLesson(@RequestBody Lesson lesson) {
         long newId = lessonService.saveLesson(lesson);
         return new ResponseEntity<>("Nieuwe les is aangemaakt!", HttpStatus.CREATED);

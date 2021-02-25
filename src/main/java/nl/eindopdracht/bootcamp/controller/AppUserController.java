@@ -77,7 +77,7 @@ public class AppUserController {
 //    }
 
     @PostMapping(value = "/appuser")
-    public ResponseEntity<Object> saveAPPUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<Object> saveAppUser(@RequestBody AppUser appUser) {
         long newId = appUserService.saveAppUser(appUser);
         return new ResponseEntity<>(newId, HttpStatus.CREATED);
     }

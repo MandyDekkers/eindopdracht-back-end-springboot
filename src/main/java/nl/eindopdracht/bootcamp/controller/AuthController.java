@@ -3,6 +3,7 @@ package nl.eindopdracht.bootcamp.controller;
 import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
+import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.service.AppUserService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -51,6 +53,7 @@ public class AuthController {
     @GetMapping("/user")
 //    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
+        System.out.println(headers.get("authorization"));
         return appUserService.findUserByToken(headers.get("authorization"));
     }
 

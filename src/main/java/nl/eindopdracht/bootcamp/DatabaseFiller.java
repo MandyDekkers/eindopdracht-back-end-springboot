@@ -72,23 +72,50 @@ public class DatabaseFiller implements CommandLineRunner {
 
         appUserService.saveAppUser(admin);
 
+        AppUser user = new AppUser();
 
-        Set<String> rollen = new HashSet<>();
-        rollen.add("user");
+        Set<Role> rollen = new HashSet<>();
+        Role userRole = roleRepository.findByName(ERole.ROLE_USER).get();
+        rollen.add(userRole);
 
-        SignupRequest user = new SignupRequest();
+        user.setRoles(rollen);
         user.setUsername("sjaak");
         user.setEmail("sjaak@sjaak.nl");
         user.setPassword("sjaaksjaak");
         user.setFirstName("Sjaak");
         user.setLastName("Klaassen");
-        user.setStreetName("Straatnaam");
-        user.setHouseNumber("25");
-        user.setPostalCode("5678CD");
-        user.setCity("Amsterdam");
-        rollen.add("user");
-        user.setRole(rollen);
-        authorizationService.registerUser(user);
+
+        Address useraddress = new Address();
+        useraddress.setStreetName("Straatnaam");
+        useraddress.setHouseNumber("10");
+        useraddress.setPostalCode("5555HT");
+        useraddress.setCity("Utrecht");
+
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        addressService.saveAddress(useraddress);
+        user.setAddress(useraddress);
+
+        appUserService.saveAppUser(user);
+
+
+
+//        Set<String> rollen = new HashSet<>();
+//        rollen.add("user");
+//
+//        SignupRequest user = new SignupRequest();
+//        user.setUsername("sjaak");
+//        user.setEmail("sjaak@sjaak.nl");
+//        user.setPassword("sjaaksjaak");
+//        user.setFirstName("Sjaak");
+//        user.setLastName("Klaassen");
+//        user.setStreetName("Straatnaam");
+//        user.setHouseNumber("25");
+//        user.setPostalCode("5678CD");
+//        user.setCity("Amsterdam");
+//        rollen.add("user");
+//        user.setRole(rollen);
+//        authorizationService.registerUser(user);
     }
 }
 

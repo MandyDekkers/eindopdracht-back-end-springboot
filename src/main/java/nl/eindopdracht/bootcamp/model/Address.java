@@ -106,4 +106,5 @@ public class Address {
     public void setAppuser(AppUser appuser) {
         this.appuser = appuser;
     }
+
 }

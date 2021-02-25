@@ -8,6 +8,7 @@ import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
+import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.ReservationRepository;
@@ -87,9 +88,16 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public ResponseEntity<?> findUserByToken(String token) {
         String username = getUsernameFromToken(token);
+        System.out.println(username);
 
         if (userExists(username)) {
-            return ResponseEntity.ok(findUserByUsername(username));
+            AppUser appUserFound = findUserByUsername(username);
+            AppUser appUserToReturn = new AppUser();
+            appUserToReturn.setId(appUserFound.getId());
+            appUserToReturn.setUsername(appUserFound.getUsername());
+            appUserToReturn.setEmail(appUserFound.getEmail());
+
+            return ResponseEntity.ok(appUserToReturn);
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }

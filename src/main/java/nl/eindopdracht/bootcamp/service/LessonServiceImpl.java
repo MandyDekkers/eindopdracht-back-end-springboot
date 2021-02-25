@@ -9,6 +9,7 @@ import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Lesson> getAllLessons() {
         List<Lesson> lessons = lessonRepository.findAll();
         if (!lessons.isEmpty()) {
