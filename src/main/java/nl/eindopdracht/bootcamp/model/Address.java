@@ -58,7 +58,6 @@ public class Address {
         this.city = city;
     }
 
-
     public long getId() {
         return id;
     }

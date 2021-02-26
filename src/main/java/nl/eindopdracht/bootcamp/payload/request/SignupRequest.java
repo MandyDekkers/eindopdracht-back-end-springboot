@@ -20,6 +20,10 @@ public class SignupRequest {
     @Size(min = 3, max = 32, message = "Password must be between 6 and 20 characters long")
     private String password;
 
+    @NotBlank(message = "Password may not be empty")
+    @Size(min = 3, max = 32, message = "Password must be between 6 and 20 characters long")
+    private String repeatedPassword;
+
     @NotBlank(message = "Firstname may not be empty")
     private String firstName;
 
@@ -62,6 +66,14 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
     }
 
     public String getFirstName() {

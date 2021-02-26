@@ -21,32 +21,58 @@ import java.util.stream.Collectors;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     LessonRepository lessonRepository;
 
     @Autowired
+    public void setLessonRepository(LessonRepository lessonRepository) {
+        this.lessonRepository = lessonRepository;
+    }
+
     AppUserRepository appUserRepository;
 
     @Autowired
+    public void setAppUserRepository(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
     ReservationRepository reservationRepository;
+
+    @Autowired
+    public void setReservationRepository(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     @Override
     public List<ReservationDTO> getLessonsByAppUser(long appUserID) {
-    return ((Collection<Reservation>) reservationRepository
-            .findAllByAppUserId(appUserID))
-            .stream()
-            .map(this::convertTo).collect(Collectors.toList());
+        if (appUserRepository.existsById(appUserID)) {
+            return ((Collection<Reservation>) reservationRepository
+                    .findAllByAppUserId(appUserID))
+                    .stream()
+                    .map(this::convertTo).collect(Collectors.toList());
+        }
+        else {
+            throw new RecordNotFoundException();
+        }
     }
 
     @Override
     public List<ReservationDTO> getUsersByLesson(long lessonId) {
+        if (lessonRepository.existsById(lessonId)) {
         return ((Collection<Reservation>) reservationRepository
                 .findAllByLessonId(lessonId))
                 .stream()
                 .map(this::convertTo).collect(Collectors.toList());
+    }
+        else {
+            throw new RecordNotFoundException();
+        }
     }
 
     private ReservationDTO convertTo(Reservation reservation) {
@@ -80,38 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void deleteReservation(long appuserId, long lessonId) {
-        if (!appUserRepository.existsById(appuserId)) { throw new RecordNotFoundException(); }
-        if (!lessonRepository.existsById(lessonId)) { throw new RecordNotFoundException(); }
-
-        Reservation reservation = reservationRepository.findById(new ReservationKey(appuserId, lessonId)).orElse(null);
-
-        reservation.setLesson(null);
-        reservation.setAppUser(null);
-        reservation.setComment(null);
-        reservation.setId(null);
-
-        reservationRepository.deleteById(reservation);
-
-    }
-
-
-    @Override
     public ReservationKey addReservation(long appuserId, long lessonId, Reservation reservation) {
-        if (!appUserRepository.existsById(appuserId)) { throw new RecordNotFoundException(); }
-        AppUser appUser = appUserRepository.findById(appuserId).orElse(null);
-        if (!lessonRepository.existsById(lessonId)) { throw new RecordNotFoundException(); }
-        Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
-        reservation.setAppUser(appUser);
-        reservation.setLesson(lesson);
-        ReservationKey id = new ReservationKey(appuserId, lessonId);
-        reservation.setId(id);
-        reservationRepository.save(reservation);
-        return id;
-    }
-
-    @Override
-    public ReservationKey addMember(long appuserId, long lessonId, Reservation reservation) {
         if (!appUserRepository.existsById(appuserId)) { throw new RecordNotFoundException(); }
         AppUser appUser = appUserRepository.findById(appuserId).orElse(null);
         if (!lessonRepository.existsById(lessonId)) { throw new RecordNotFoundException(); }

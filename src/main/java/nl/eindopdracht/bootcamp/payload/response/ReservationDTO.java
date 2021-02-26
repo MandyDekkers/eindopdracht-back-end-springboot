@@ -1,22 +1,13 @@
 package nl.eindopdracht.bootcamp.payload.response;
 
-import nl.eindopdracht.bootcamp.model.ReservationKey;
-
-import javax.persistence.Column;
-
 public class ReservationDTO {
 
-    //AppUser
     private String firstName;
     private String lastName;
-
-    //Lesson
     private String name;
     private String date;
     private String maxAmountMembers;
     private String niveau;
-
-    //Comment
     private String comment;
 
     public String getComment() {

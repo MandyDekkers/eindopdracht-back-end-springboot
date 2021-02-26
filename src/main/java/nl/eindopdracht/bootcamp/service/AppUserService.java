@@ -17,17 +17,12 @@ public interface AppUserService {
 
     List<AppUserResponse> getAllAppUsers();
     Optional<AppUserResponse> getAppUsersById(long id);
-    //    void updateAppUser(long id, AppUser appUser);
     void updateAppUser(long id, AppUserResponse appUser);
     void deleteAppUser(long id);
     List<AppUserResponse> getAppUserByLastName(String lastName);
-
     ResponseEntity<?> updateUserById(String token, @Valid UpdateUserRequest appUserRequest);
     ResponseEntity<?> findUserByToken(String token);
-
     long saveAppUser(AppUser appUser);
-
     long saveImage(AppUser appUser);
 
-    AppUser getImageById(long id);
 }

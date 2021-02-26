@@ -2,9 +2,6 @@ package nl.eindopdracht.bootcamp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.web.ProjectedPayload;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,15 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -54,17 +47,11 @@ public class AppUser {
     @Column ( length= 2000000)
     private String image;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private Role rol;
-
     @ManyToMany
     private Set<Role> roles;
 
     @OneToOne(fetch=FetchType.LAZY)
     private Address address;
-
-//    @OneToOne(mappedBy = "appuser", fetch = FetchType.LAZY)
-//    private FileDB fileDB;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -82,27 +69,6 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public AppUser(String username, String email, String password, String firstName, String lastName, Set<Role> roles, Address address) {
-        this.username = username;
-        this.password = email;
-        this.email = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.roles = roles;
-        this.address = address;
-    }
-
-    public AppUser(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public AppUser(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public String getImage() {
         return image;
     }
@@ -110,14 +76,6 @@ public class AppUser {
     public void setImage(String image) {
         this.image = image;
     }
-
-//    public FileDB getFileDB() {
-//        return fileDB;
-//    }
-//
-//    public void setFileDB(FileDB fileDB) {
-//        this.fileDB = fileDB;
-//    }
 
     public long getId() {
         return id;
@@ -183,27 +141,4 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(Set<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    @Override
-    public String toString() {
-        return "AppUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", image='" + image + '\'' +
-                ", roles=" + roles +
-                ", address=" + address +
-                ", reservations=" + reservations +
-                '}';
-    }
 }

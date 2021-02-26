@@ -1,8 +1,13 @@
 package nl.eindopdracht.bootcamp.payload.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginRequest {
-//VALIDATIE TOEVOEGEN
+
+    @NotBlank(message = "Username may not be empty")
     private String username;
+
+    @NotBlank(message = "Password may not be empty")
     private String password;
 
     public String getUsername() {

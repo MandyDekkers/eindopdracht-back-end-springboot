@@ -27,6 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssumptions.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,5 +53,11 @@ public class AppUserServiceTest {
         appuser.setLastName("Dekkers");
     }
 
+    @Test
+    void testDeleteAppUser(){
+        Mockito.when(appUserRepository.existsById(anyLong())).thenReturn(true);
+        appUserService.deleteAppUser(1L);
+        Mockito.verify(appUserRepository, times(1)).deleteById(1L);
+    }
 
 }

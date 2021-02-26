@@ -77,5 +77,11 @@ public class LessonServiceTest {
         assertNull(lesson1, "Not found");
     }
 
+    @Test
+    void testDeleteLesson(){
+        Mockito.when(lessonRepository.existsById(anyLong())).thenReturn(true);
+        lessonService.deleteLesson(1L);
+        Mockito.verify(lessonRepository, times(1)).deleteById(1L);
+    }
 
 }

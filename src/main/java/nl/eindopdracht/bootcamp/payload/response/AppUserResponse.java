@@ -1,37 +1,19 @@
 package nl.eindopdracht.bootcamp.payload.response;
 
-
 public class AppUserResponse {
 
-    //AppUser
     private long id;
     private String email;
     private String firstName;
     private String lastName;
     private String image;
-
-    //Address
     private String streetName;
     private String houseNumber;
     private String postalCode;
     private String city;
 
-    public AppUserResponse(String email, String firstName, String lastName) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public AppUserResponse() {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.streetName = streetName;
-        this.houseNumber = houseNumber;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.image = image;
+
     }
 
     public AppUserResponse(long id, String email, String firstName, String lastName, String streetName, String houseNumber, String postalCode, String city, String image) {

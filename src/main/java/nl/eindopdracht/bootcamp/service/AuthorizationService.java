@@ -75,6 +75,13 @@ public class AuthorizationService {
     }
 
     public ResponseEntity<MessageResponse> registerUser(@Valid SignupRequest signUpRequest) {
+
+        if (Boolean.TRUE.equals(!signUpRequest.getPassword().equals(signUpRequest.getRepeatedPassword()))) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Passwords are not the same!"));
+        }
+
         if (Boolean.TRUE.equals(appUserRepository.existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
@@ -86,19 +93,6 @@ public class AuthorizationService {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-
-        //        // Create new user's account
-//        AppUser appUser = new AppUser(signUpRequest.getUsername(),
-//                signUpRequest.getEmail(),
-//                encoder.encode(signUpRequest.getPassword()));
-//
-//        if(signUpRequest.getFirstName() != null && !signUpRequest.getFirstName().isEmpty()) {
-//            appUser.setFirstName(signUpRequest.getFirstName());
-//        }
-//
-//        if(signUpRequest.getLastName() != null && !signUpRequest.getLastName().isEmpty()) {
-//            appUser.setLastName(signUpRequest.getLastName());
-//        }
 
             AppUser appUser = new AppUserBuilder(signUpRequest).buildAppUser();
             Address address = new AppUserBuilder(signUpRequest).buildAddress();
@@ -116,22 +110,6 @@ public class AuthorizationService {
                     .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
             roles.add(userRole);
         }
-//        else {
-//            strRoles.forEach(role -> {
-//                switch (role) {
-//                    case "admin":
-//                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-//                                .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
-//                        roles.add(adminRole);
-//
-//                        break;
-//                    default:
-//                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-//                                .orElseThrow(() -> new RuntimeException(ROLE_NOT_FOUND_ERROR));
-//                        roles.add(userRole);
-//                }
-//            });
-//        }
 
         appUser.setRoles(roles);
         appUserRepository.save(appUser);

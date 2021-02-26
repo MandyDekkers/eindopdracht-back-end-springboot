@@ -4,21 +4,16 @@ import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 
 public class AppUserBuilder {
 
-    //AppUser
     private String username;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
 
-    //Address
     private String streetName;
     private String houseNumber;
     private String postalCode;
     private String city;
-
-    //Role
-    private ERole name;
 
     public AppUserBuilder(SignupRequest signupRequest) {
         this.username = signupRequest.getUsername();

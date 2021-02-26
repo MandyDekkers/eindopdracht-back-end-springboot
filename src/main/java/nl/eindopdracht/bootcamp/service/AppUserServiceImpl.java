@@ -8,10 +8,10 @@ import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
-import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.repository.AppUserRepository;
 import nl.eindopdracht.bootcamp.repository.ReservationRepository;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,26 @@ import java.util.stream.Collectors;
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
-    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
+    public void setModelMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     private AppUserRepository appUserRepository;
 
     @Autowired
+    public void setAppUserRepository(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    public void setReservationRepository(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     @Value("${novi.sec.jwtSecret}")
     private String jwtSecret;
@@ -60,11 +72,6 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser getImageById(long id) {
-        return appUserRepository.findById(id).orElse(null);
-    }
-
-    @Override
     public ResponseEntity<?> updateUserById(String token, UpdateUserRequest userRequest) {
         if (token == null || token.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
@@ -76,10 +83,10 @@ public class AppUserServiceImpl implements AppUserService {
             if (!userRequest.getPassword().isEmpty() && !userRequest.getRepeatedPassword().isEmpty()) {
                 updatedUser.setPassword(encoder.encode(userRequest.getPassword()));
             }
-            if (userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()) {
-                updatedUser.setEmail(userRequest.getEmail());
-            }
-            return ResponseEntity.ok().body(appUserRepository.save(updatedUser));
+
+            appUserRepository.save(updatedUser);
+
+            return ResponseEntity.ok().body(new MessageResponse("Details are uptdated!"));
         }
 
         return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
@@ -88,7 +95,6 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public ResponseEntity<?> findUserByToken(String token) {
         String username = getUsernameFromToken(token);
-        System.out.println(username);
 
         if (userExists(username)) {
             AppUser appUserFound = findUserByUsername(username);
@@ -147,21 +153,6 @@ public class AppUserServiceImpl implements AppUserService {
         this.encoder = encoder;
     }
 
-//    @Autowired
-//    public void setAppUserRepository(AppUserRepository appUserRepository) {
-//        this.appUserRepository = appUserRepository;
-//    }
-
-    //    @Override
-//    public ResponseEntity<?> getAllUsers() {
-//
-//        List<User> users = userRepository.findAll();
-//
-//        if(users.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
-//        }
-//        return ResponseEntity.ok(users);
-//    }
     @Override
     public List<AppUserResponse> getAllAppUsers() {
 
@@ -182,16 +173,6 @@ public class AppUserServiceImpl implements AppUserService {
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
         AppUserResponse appUserResponse = modelMapper
                 .map(appUser, AppUserResponse.class);
-//        AppUserResponse appUserResponse = new AppUserResponse();
-//        appUserResponse.setEmail(appUser.getEmail());
-//        appUserResponse.setFirstName(appUser.getFirstName());
-//        appUserResponse.setLastName(appUser.getLastName());
-//
-//        Address address = appUser.getAddress();
-//        appUserResponse.setStreetName(address.getStreetName());
-//        appUserResponse.setHouseNumber(address.getHouseNumber());
-//        appUserResponse.setPostalCode(address.getPostalCode());
-//        appUserResponse.setCity(address.getCity());
 
         return appUserResponse;
     }
@@ -227,6 +208,7 @@ public class AppUserServiceImpl implements AppUserService {
                 oldAddress.setCity(appUser.getCity());
 
                 appUserRepository.save(existingAppUser);
+
             } catch (Exception ex) {
                 throw new DatabaseErrorException();
             }
@@ -234,17 +216,6 @@ public class AppUserServiceImpl implements AppUserService {
             throw new RecordNotFoundException();
         }
     }
-
-    //        AppUserResponse appUserResponse = new AppUserResponse();
-//        appUserResponse.setEmail(appUser.getEmail());
-//        appUserResponse.setFirstName(appUser.getFirstName());
-//        appUserResponse.setLastName(appUser.getLastName());
-//
-//        Address address = appUser.getAddress();
-//        appUserResponse.setStreetName(address.getStreetName());
-//        appUserResponse.setHouseNumber(address.getHouseNumber());
-//        appUserResponse.setPostalCode(address.getPostalCode());
-//        appUserResponse.setCity(address.getCity());
 
     @Override
     public void deleteAppUser(long id) {
@@ -266,62 +237,6 @@ public class AppUserServiceImpl implements AppUserService {
         } catch (Exception ex) {
             throw new RecordNotFoundException();
         }
-
     }
+
 }
-
-
-//    @Override
-//    public Client getClientByLastName(String lastName) {
-//        try {
-//            return clientRepository.findByLastNameIgnoreCase(lastName);
-//        }
-//        catch (Exception ex ) {
-//            throw new RecordNotFoundException();
-//        }
-//    }
-//
-//    public Client getClientByLastName2(String lastName) {
-//        Client client = clientRepository.findByLastNameIgnoreCase(lastName);
-//        if (client == null) {
-//            throw new RecordNotFoundException();
-//        }
-//        else {
-//            return client;
-//        }
-//    }
-//    @Override
-//    public ResponseEntity<?> addAppUser(AppUser appUser) {
-//        if (!appUserRepository.existsByEmail(appUser.getEmail())) {
-//            AppUser savedAppUser = appUserRepository.save(appUser);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(savedAppUser);
-//        }
-//        return ResponseEntity.status(500).body("Email is not unique."); //response in controller
-//    }
-
-
-//PETER:
-//    @Override
-//    public long addAppUser(AppUser appUser) {
-//        if(!appUserRepository.existsByEmail(appUser.getEmail())) {
-//            AppUser newAppUser = appUserRepository.save(appUser);
-//            return newAppUser.getId();
-//        }
-//        else
-//            throw new RecordNotFoundException();
-//        }
-
-//    @Override
-//    public AppUser getAppUsersById(long id) {
-//        if (appUserRepository.existsById(id)) {
-//            AppUser appuser = appUserRepository.findById(id).orElse(null);
-//
-//            AppUser userToReturn = new AppUser();
-//
-//            userToReturn.setFirstName(appuser.getFirstName());
-//
-//            return userToReturn;
-//        } else {
-//            throw new RecordNotFoundException();
-//        }
-//    }

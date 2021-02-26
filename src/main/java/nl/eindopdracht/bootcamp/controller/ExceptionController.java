@@ -1,6 +1,5 @@
 package nl.eindopdracht.bootcamp.controller;
 
-
 import nl.eindopdracht.bootcamp.exeption.DatabaseErrorException;
 import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
 import org.springframework.http.HttpStatus;

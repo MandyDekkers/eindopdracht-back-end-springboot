@@ -1,5 +1,4 @@
 package nl.eindopdracht.bootcamp.payload.response;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,13 +11,9 @@ public class ErrorResponse {
             this.details = details;
         }
 
-        //General error message about nature of error
         private String message;
 
-        //Specific errors in API request processing
         private List<String> details;
-
-        //Getter and setters
 
     public String getMessage() {
         return message;

@@ -32,10 +32,6 @@ public class ReservationKey implements Serializable {
         return lessonId;
     }
 
-    public void setLessonId(Long lessonId) {
-        this.lessonId = lessonId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
