@@ -84,4 +84,22 @@ public class LessonServiceTest {
         Mockito.verify(lessonRepository, times(1)).deleteById(1L);
     }
 
+    @Test
+    public void saveLesson() {
+        Lesson lesson = new Lesson();
+        lesson.setName("testles");
+        lesson.setId(1);
+        lesson.setMaxAmountMembers("3");
+        lesson.setDate("maandag 1 maart");
+
+        long id = 1;
+
+        Mockito
+                .when(lessonRepository.save(lesson))
+                .thenReturn(lesson);
+
+        long result = lessonService.saveLesson(lesson);
+    }
+
+
 }
