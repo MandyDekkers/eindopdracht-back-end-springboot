@@ -96,6 +96,7 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationDTO newdto = new ReservationDTO();
         newdto.setFirstName(appUser.getFirstName());
         newdto.setLastName(appUser.getLastName());
+        newdto.setId(lesson.getId());
         newdto.setName(lesson.getName());
         newdto.setDate(lesson.getDate());
         newdto.setMaxAmountMembers(lesson.getMaxAmountMembers());
@@ -117,6 +118,16 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setId(id);
         reservationRepository.save(reservation);
         return id;
+    }
+
+    @Override
+    public void deleteReservation(long appUserid, long lessonId) {
+        ReservationKey reservationKey = new ReservationKey(appUserid, lessonId );
+        if(!reservationRepository.existsById(reservationKey)) {
+            throw  new RecordNotFoundException();
+        }
+        reservationRepository.deleteById(reservationKey);
+
     }
 
 }

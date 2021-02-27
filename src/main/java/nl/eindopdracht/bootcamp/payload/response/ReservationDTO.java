@@ -4,11 +4,20 @@ public class ReservationDTO {
 
     private String firstName;
     private String lastName;
+    private long id;
     private String name;
     private String date;
     private String maxAmountMembers;
     private String niveau;
     private String comment;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getComment() {
         return comment;

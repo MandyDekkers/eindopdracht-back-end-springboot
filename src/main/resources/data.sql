@@ -1,9 +1,6 @@
 INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
--- INSERT INTO appuser_roles (app_user_id,roles_id) VALUES(4,2)
-
--- INSERT INTO appuser_roles(app_user_id,roles_id) VALUES(1,1),(2,1),(3,1),(4,1);
 
 INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Maandag 1 maart 2021, 20:00 uur', '5', 'Fitcamp','gevorderd');
 INSERT INTO lesson (date, amount_members, name, niveau) VALUES ('Dinsdag 2 maart 2021, 19:00 uur', '8', 'Corecamp','beginner');
@@ -27,14 +24,14 @@ INSERT INTO address (city, housenumber, postalcode, streetname) VALUES ('Tilburg
 INSERT INTO address (city, housenumber, postalcode, streetname) VALUES ('Boxtel', '1', '5896OP', 'Hooivork');
 
 
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('dekkersmandy@hotmail.com', 'Mandy', 'Dekkers', 'password', 'mandydekkers', 1);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('janklaassen@hotmail.com', 'Jan', 'Klaassen', 'pasword', 'janklaassen', 2);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('pietpuk@hotmail.com', 'Pietje', 'Puk', 'password', 'pietjepuk', 3);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('sjaaksjakie@hotmail.com', 'Sjakie', 'Sjaak', 'password', 'sjakie', 4);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('alberteinstein@hotmail.com', 'Albert', 'Einstein', 'password', 'mandydekkers', 5);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('jansmit@hotmail.com', 'Jan', 'Smit', 'pasword', 'janklaassen', 6);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('willemalexander@hotmail.com', 'Willem', 'Alexander', 'password', 'willemalexander', 7);
-INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('jantjebeton@hotmail.com', 'Jantje', 'Beton', 'password', 'jantjebeton', 8);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('dekkersmandy@hotmail.com', 'Mandy', 'Dekkers', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'mandydekkers', 1);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('janklaassen@hotmail.com', 'Jan', 'Klaassen', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'janklaassen', 2);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('pietpuk@hotmail.com', 'Pietje', 'Puk', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'pietjepuk', 3);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('sjaaksjakie@hotmail.com', 'Sjakie', 'Sjaak', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'sjakie', 4);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('alberteinstein@hotmail.com', 'Albert', 'Einstein', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'mandydekkers', 5);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('jansmit@hotmail.com', 'Jan', 'Smit', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'janklaassen', 6);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('willemalexander@hotmail.com', 'Willem', 'Alexander', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'willemalexander', 7);
+INSERT INTO appuser (email, first_name, last_name, password, username, address_id) VALUES ('jantjebeton@hotmail.com', 'Jantje', 'Beton', '$2y$12$fD7Zrm4IfEPNZuhuJ8X0R..zrXnButMTQCgp3DrMASoUUa80S4goC', 'jantjebeton', 8);
 
 alter sequence native restart with 10;
 
@@ -50,9 +47,3 @@ INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (5, 5, 'test9');
 INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (5, 6, 'test10');
 INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (6, 5, 'test11');
 INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (6, 6, 'test12');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 1, 'nog herstellende');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 2, '5 min. later aanwezig');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 3, 'kan maar een half uur deelnemen');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 4, 'test10');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 5, 'test11');
--- INSERT INTO reservation (appuser_id, lesson_id, comment) VALUES (10, 6, 'test12');

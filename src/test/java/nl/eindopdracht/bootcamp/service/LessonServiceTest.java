@@ -5,6 +5,7 @@ import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import nl.eindopdracht.bootcamp.repository.LessonRepository;
+import org.assertj.core.internal.bytebuddy.matcher.ElementMatcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssumptions.given;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -99,6 +103,15 @@ public class LessonServiceTest {
                 .thenReturn(lesson);
 
         long result = lessonService.saveLesson(lesson);
+    }
+    
+    @Test
+    public void testFindAllLessons() {
+        List<Lesson> lessons = lessonRepository.findAll();
+        assertThat(lessons.size(), is(greaterThanOrEqualTo(0)));
+    }
+
+        private void assertThat(int size, ElementMatcher.Junction<Object> objectJunction) {
     }
 
 

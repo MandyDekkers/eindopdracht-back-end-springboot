@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +59,12 @@ public class ReservationController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 
         return new ResponseEntity<>("Les is reserved!", HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{appuser_id}/lesson/{lesson_id}")
+    public ResponseEntity<Object> deleteReservation(@PathVariable("appuser_id") long appUserId, @PathVariable ("lesson_id")  long lessonId) {
+        reservationService.deleteReservation(appUserId, lessonId);
+        return new ResponseEntity<>("Reservering is geannuleerd!", HttpStatus.OK);
     }
 
 }

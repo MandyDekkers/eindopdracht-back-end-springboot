@@ -33,7 +33,9 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
+
     @PostMapping(value = "/image")
+    //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> saveImage(@RequestBody AppUser appUser) {
         long newId = appUserService.saveImage(appUser);
         return new ResponseEntity<>("Image is saved!", HttpStatus.CREATED);
@@ -69,7 +71,7 @@ public class AppUserController {
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);

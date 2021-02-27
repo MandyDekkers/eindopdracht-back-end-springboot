@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,6 +39,7 @@ public class AppUserServiceTest {
 
     @InjectMocks
     AppUserServiceImpl appUserService;
+
     @Mock
     AppUserRepository appUserRepository;
 
@@ -59,5 +61,25 @@ public class AppUserServiceTest {
         appUserService.deleteAppUser(1L);
         Mockito.verify(appUserRepository, times(1)).deleteById(1L);
     }
+
+//    @Test
+//    public void testGetCustomerByLastName2() {
+//        AppUser appUser = new AppUser();
+//
+//        appUser.setLastName("Dekkers");
+//        appUser.setId(1);
+//
+//        Mockito
+//                .doReturn(appUser)
+//                .when(appUserRepository)
+//                .findById((long) 1);
+//
+//        long id = 1;
+//        long expected = 1;
+//
+//        Optional<AppUserResponse> found = appUserService.getAppUsersById(id);
+//
+//        assertEquals(expected, found.get().getId());
+//    }
 
 }

@@ -12,5 +12,5 @@ public interface ReservationService {
     List<ReservationDTO> getUsersByLesson(long lessonId);
     ReservationDTO getReservation(long appuserId, long lessonId);
     ReservationKey addReservation(long appuserId, long lessonId, Reservation reservation);
-
+    void deleteReservation(long appUserId, long lessonId);
 }
