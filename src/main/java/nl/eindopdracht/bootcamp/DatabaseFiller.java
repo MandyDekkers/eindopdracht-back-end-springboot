@@ -4,7 +4,6 @@ import nl.eindopdracht.bootcamp.model.Address;
 import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.model.ERole;
 import nl.eindopdracht.bootcamp.model.Role;
-import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 import nl.eindopdracht.bootcamp.repository.RoleRepository;
 import nl.eindopdracht.bootcamp.service.AddressService;
 import nl.eindopdracht.bootcamp.service.AppUserService;

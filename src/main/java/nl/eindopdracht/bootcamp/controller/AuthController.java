@@ -3,7 +3,6 @@ package nl.eindopdracht.bootcamp.controller;
 import nl.eindopdracht.bootcamp.payload.request.LoginRequest;
 import nl.eindopdracht.bootcamp.payload.request.SignupRequest;
 import nl.eindopdracht.bootcamp.payload.request.UpdateUserRequest;
-import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import nl.eindopdracht.bootcamp.payload.response.JwtResponse;
 import nl.eindopdracht.bootcamp.payload.response.MessageResponse;
 import nl.eindopdracht.bootcamp.service.AppUserService;
