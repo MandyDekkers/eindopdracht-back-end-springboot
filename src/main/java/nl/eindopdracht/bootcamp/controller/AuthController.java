@@ -51,14 +51,14 @@ public class AuthController {
     }
 
     @PostMapping("/update")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers,
                                         @RequestBody UpdateUserRequest updateRequest) {
         return appUserService.updateUserById(headers.get("authorization"), updateRequest);
     }
 
     @GetMapping("/user")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
         System.out.println(headers.get("authorization"));
         return appUserService.findUserByToken(headers.get("authorization"));

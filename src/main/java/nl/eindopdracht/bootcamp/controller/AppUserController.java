@@ -35,14 +35,14 @@ public class AppUserController {
 
 
     @PostMapping(value = "/image")
-    //    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> saveImage(@RequestBody AppUser appUser) {
         long newId = appUserService.saveImage(appUser);
         return new ResponseEntity<>("Image is saved!", HttpStatus.CREATED);
     }
 
     @GetMapping("")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAllAppUsers() {
         List <AppUserResponse> appUserResponses = appUserService.getAllAppUsers();
@@ -50,13 +50,13 @@ public class AppUserController {
     }
 
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @ResponseBody
     public ResponseEntity<AppUserResponse> getAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(appUserService.getAppUsersById(id).get());
     }
 
     @GetMapping(value = "/lastname/{lastName}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public List<AppUserResponse> getAppUserByLastName(@PathVariable("lastName") String lastName) {
         List<AppUserResponse> appusers = appUserService.getAppUserByLastName(lastName);
@@ -64,14 +64,14 @@ public class AppUserController {
     }
 
     @PutMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> updateAppUser(@PathVariable("id") int id, @RequestBody AppUserResponse appUser) {
         appUserService.updateAppUser(id, appUser);
         return new ResponseEntity<>("User is geupdated!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('ADMIN')
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteAppUser(@PathVariable("id") long id) {
         appUserService.deleteAppUser(id);
         return new ResponseEntity<>("User is verwijderd", HttpStatus.OK);

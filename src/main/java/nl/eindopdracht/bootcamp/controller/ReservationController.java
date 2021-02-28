@@ -6,6 +6,7 @@ import nl.eindopdracht.bootcamp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,26 +32,26 @@ public class ReservationController {
     }
 
     @GetMapping(value = "/{id}/lessons")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getLessonsByAppUser(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getLessonsByAppUser(id));
     }
 
     @GetMapping(value = "/{id}/appusers")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> getUsersByLesson(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(reservationService.getUsersByLesson(id));
     }
 
     @GetMapping(value = "/{appuser_id}/lesson/{lesson_id}")
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> getReservation(@PathVariable("appuser_id") long appuserId,
                                                  @PathVariable("lesson_id") long lessonId) {
         return ResponseEntity.ok().body(reservationService.getReservation(appuserId, lessonId));
     }
 
     @PostMapping(value = "/{appuser_id}/lesson/{lesson_id}")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Object> makeReservation(@PathVariable("appuser_id") long appuserId,
                                                   @PathVariable("lesson_id") long lessonId,
                                                   @RequestBody Reservation reservation) {
@@ -62,6 +63,7 @@ public class ReservationController {
     }
 
     @DeleteMapping(value = "/{appuser_id}/lesson/{lesson_id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> deleteReservation(@PathVariable("appuser_id") long appUserId, @PathVariable ("lesson_id")  long lessonId) {
         reservationService.deleteReservation(appUserId, lessonId);
         return new ResponseEntity<>("Reservering is geannuleerd!", HttpStatus.OK);

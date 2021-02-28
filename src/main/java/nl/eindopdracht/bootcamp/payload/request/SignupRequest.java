@@ -17,11 +17,11 @@ public class SignupRequest {
     private String email;
 
     @NotBlank(message = "Password may not be empty")
-    @Size(min = 3, max = 32, message = "Password must be between 6 and 20 characters long")
+    @Size(min = 8, max = 32, message = "Password must be between 6 and 20 characters long")
     private String password;
 
     @NotBlank(message = "Password may not be empty")
-    @Size(min = 3, max = 32, message = "Password must be between 6 and 20 characters long")
+    @Size(min = 8, max = 32, message = "Password must be between 6 and 20 characters long")
     private String repeatedPassword;
 
     @NotBlank(message = "Firstname may not be empty")
