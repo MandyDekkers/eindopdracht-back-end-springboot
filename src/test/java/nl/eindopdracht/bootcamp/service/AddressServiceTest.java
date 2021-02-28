@@ -1,9 +1,7 @@
 package nl.eindopdracht.bootcamp.service;
 
 import nl.eindopdracht.bootcamp.model.Address;
-import nl.eindopdracht.bootcamp.model.Lesson;
 import nl.eindopdracht.bootcamp.repository.AddressRepository;
-import nl.eindopdracht.bootcamp.repository.LessonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

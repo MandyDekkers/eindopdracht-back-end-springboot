@@ -1,12 +1,8 @@
 package nl.eindopdracht.bootcamp.service;
 
-import nl.eindopdracht.bootcamp.exeption.RecordNotFoundException;
-import nl.eindopdracht.bootcamp.model.AppUser;
 import nl.eindopdracht.bootcamp.model.Lesson;
-import nl.eindopdracht.bootcamp.payload.response.AppUserResponse;
 import nl.eindopdracht.bootcamp.repository.LessonRepository;
 import org.assertj.core.internal.bytebuddy.matcher.ElementMatcher;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,24 +11,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssumptions.given;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
